@@ -10,7 +10,6 @@ const generateToken = (id, role) => {
 };
 
 
-
 exports.registerUser = async (req, res) => {
     const { username, password, role, phoneNumber } = req.body;
 
@@ -174,5 +173,21 @@ exports.activateUser = async (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
+    }
+};
+
+
+// src/controllers/UserController.js
+// src/controllers/UserController.js
+
+// Example: Get admin by username
+exports.getAdminDetails = async (req, res) => {
+    try {
+        const adminUsername = 'admin'; 
+        const admin = await User.findOne({ username: adminUsername }).select('_id');
+        if (!admin) return res.status(404).json({ message: 'Admin not found' });
+        res.json(admin);
+    } catch (err) {
+        res.status(500).json({ message: 'Server Error', error: err.message });
     }
 };

@@ -1,0 +1,74 @@
+/* src/components/CustomerChat.css */
+
+.chat-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.message-container {
+  height: 400px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.sent {
+  background-color: #e1ffc7;
+  text-align: right;
+}
+
+.received {
+  background-color: #ffffff;
+}
+
+.timestamp {
+  display: block;
+  font-size: 0.8em;
+  color: #888;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.loading {
+  color: #007bff;
+}
+
+.error {
+  color: red;
+}

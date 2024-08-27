@@ -21,6 +21,9 @@ import CalculateEMI from './Components/Loans/CalculateEmi';
 import ViewAccount from './Components/Accounts/ViewAccount';
 import EditAccount from './Components/Accounts/EditAccount';
 import AdminDashboard from './Components/Dashboards/AdminDashboard';
+import Chat from './Components/Chat/CustomerChat';
+import CustomerChat from './Components/Chat/CustomerChat';
+import AdminChat from './Components/Chat/AdminChat';
 
 const ProtectedRoute = ({ element, roles }) => {
     const { auth } = useAuth();
@@ -48,6 +51,8 @@ function App() {
                             <Route path="/register" element={<Register />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/profiles" element={<Profiles />} />
+                            <Route path="/chat" element={<Chat />} />
+
 
                             {/* Protected Routes for Admins */}
                             <Route path="/admin-dashboard" element={<ProtectedRoute element={<AdminDashboard />} roles={['admin']} />} />
@@ -56,6 +61,8 @@ function App() {
                             <Route path="/manageloans" element={<ProtectedRoute element={<ManageLoans />} roles={['admin']} />} />
                             <Route path="/accountdetails/:id" element={<ProtectedRoute element={<ViewAccount />} roles={['admin']} />} />
                             <Route path="/editaccount/:id" element={<ProtectedRoute element={<EditAccount />} roles={['admin']} />} />
+                          
+                            <Route path="/adminchat" element={<ProtectedRoute element={<AdminChat />} roles={['admin']} />} />
 
                             {/* Protected Routes for Customers */}
                             <Route path="/user-dashboard" element={<ProtectedRoute element={<UserDashboard />} roles={['customer']} />} />
@@ -64,6 +71,12 @@ function App() {
                             <Route path="/fixeddeposit" element={<ProtectedRoute element={<FixedDepositForm />} roles={['customer']} />} />
                             <Route path="/recurringdeposit" element={<ProtectedRoute element={<RecurringDepositForm />} roles={['customer']} />} />
                             <Route path="/calculatemi" element={<ProtectedRoute element={<CalculateEMI />} roles={['customer']} />} />
+                            <Route path="/accountcreation" element={<ProtectedRoute element={<AccountCreation />} roles={['customer']} />} />
+                            <Route path="/customerchat" element={<ProtectedRoute element={<CustomerChat />} roles={['customer']} />} />
+
+
+
+
 
                             <Route path="/logout" element={<Logout />} />
                         </Routes>

@@ -17,8 +17,7 @@ function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link" to="/">Home</Link>
                         </li>
-                        
-
+                       
                         {/* Admin Links */}
                         {auth.role === 'admin' && (
                             <>
@@ -34,6 +33,10 @@ function Navbar() {
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/manageloans">Manage Loans</Link>
                                 </li>
+                               <li className="nav-item">
+                                    <Link className="nav-link" to="/adminchat">Chat</Link>
+                                </li>
+
                             </>
                         )}
 
@@ -55,6 +58,10 @@ function Navbar() {
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/calculatemi">Calculate EMI</Link>
                                 </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/customerchat">Chat</Link>
+                                </li>
+                               
                             </>
                         )}
 

@@ -6,7 +6,8 @@ const {
     getAllUsers,
     updateUserProfile,
     deactivateUser,
-    activateUser 
+    activateUser,
+    getAdminDetails
 } = require('../controllers/UserController');
 const { protect, admin } = require('../middleware/auth');
 const router = express.Router();
@@ -18,5 +19,6 @@ router.get('/all', protect, admin, getAllUsers);
 router.put('/profile', protect, updateUserProfile);
 router.put('/profile/:id/deactivate', protect, admin, deactivateUser);
 router.put('/profile/:id/activate', protect, admin, activateUser);
+router.get('/admin', protect, getAdminDetails);
 
 module.exports = router;
