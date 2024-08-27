@@ -1,27 +1,23 @@
 const Account = require('../models/account');
 
 const generateUniqueAccountNumber = () => {
-    // Generate a random 10-digit number as a string
     const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000);
     return randomNumber.toString();
 };
 
-exports.createAccount = async (req, res) => {
+exports.createAccount = async (req, res) => {///to create a account
     try {
-        const { amount, type } = req.body; // Ensure these are the correct fields
+        const { amount, type } = req.body; 
 
-        // Ensure amount is provided
         if (amount === undefined) {
             return res.status(400).json({ message: 'Amount is required' });
         }
-
-        // Check if the user already has an account
         const existingAccount = await Account.findOne({ user: req.user.id });
         if (existingAccount) {
             return res.status(400).json({ message: 'User already has an account' });
         }
 
-        // Create new account
+      
         const account = new Account({
             accountNumber: generateUniqueAccountNumber(),
             amount,
@@ -36,8 +32,8 @@ exports.createAccount = async (req, res) => {
     }
 };
 
-// Get All Accounts
-exports.getAllAccounts = async (req, res) => {
+
+exports.getAllAccounts = async (req, res) => {//to get all accounts
     try {
         const accounts = await Account.find();
         res.json(accounts);
@@ -46,11 +42,7 @@ exports.getAllAccounts = async (req, res) => {
     }
 };
 
-// Get Account by ID
-// controllers/accountController.js
-
-// Get Account by ID
-exports.getAccountById = async (req, res) => {
+exports.getAccountById = async (req, res) => {//to get account by id
     try {
         const account = await Account.findById(req.params.id);
         if (!account) return res.status(404).json({ message: 'Account not found' });
@@ -60,8 +52,7 @@ exports.getAccountById = async (req, res) => {
     }
 };
 
-// Update Account
-exports.updateAccount = async (req, res) => {
+exports.updateAccount = async (req, res) => {//to update account
     try {
         const account = await Account.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!account) return res.status(404).json({ message: 'Account not found' });
@@ -71,8 +62,8 @@ exports.updateAccount = async (req, res) => {
     }
 };
 
-// Delete Account
-exports.deleteAccount = async (req, res) => {
+
+exports.deleteAccount = async (req, res) => {//to delete account
     try {
         const account = await Account.findByIdAndDelete(req.params.id);
         if (!account) return res.status(404).json({ message: 'Account not found' });

@@ -13,7 +13,7 @@ const loanSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    accountId: { // Use accountId instead of userId
+    accountId: { 
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Account',
         required: true

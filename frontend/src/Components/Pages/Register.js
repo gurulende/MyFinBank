@@ -5,17 +5,34 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const Register = () => {
     const [formData, setFormData] = useState({ username: '', password: '', phoneNumber: '', role: 'customer' }); // Default role set to 'customer'
     const [error, setError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+
+        // Phone number validation
+        if (e.target.name === 'phoneNumber') {
+            const phonePattern = /^\d{10}$/; // Regular expression for exactly 10 digits
+            if (!phonePattern.test(e.target.value)) {
+                setPhoneError('Phone number must be exactly 10 digits');
+            } else {
+                setPhoneError('');
+            }
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Final check for phone number validation before submission
+        if (phoneError) {
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:5000/api/users/register', formData);
             console.log(response.data);
-            setError(''); // Clear any previous errors
+            setError('');
             alert('User registered successfully!');
         } catch (error) {
             console.error('Error registering user', error);
@@ -61,7 +78,7 @@ const Register = () => {
                             <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
                             <input 
                                 type="tel" 
-                                className="form-control" 
+                                className={`form-control ${phoneError ? 'is-invalid' : ''}`} 
                                 id="phoneNumber" 
                                 name="phoneNumber" 
                                 value={formData.phoneNumber}
@@ -69,7 +86,7 @@ const Register = () => {
                                 placeholder="Enter your phone number" 
                                 required 
                             />
-                            <div className="invalid-feedback">Please provide a phone number.</div>
+                            <div className="invalid-feedback">{phoneError || 'Please provide a phone number.'}</div>
                         </div>
                         {/* Role selection dropdown (hidden to the user) */}
                         <input 
@@ -79,7 +96,7 @@ const Register = () => {
                             value={formData.role} 
                         />
                         {error && <div className="alert alert-danger mt-3">{error}</div>}
-                        <button type="submit" className="btn btn-primary w-100">Register</button>
+                        <button type="submit" className="btn btn-primary w-100" disabled={phoneError}>Register</button>
                     </form>
                 </div>
             </div>

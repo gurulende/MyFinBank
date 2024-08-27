@@ -1,8 +1,5 @@
-// controllers/fixedDepositController.js
 const FixedDeposit = require('../models/fixedDeposit');
 const Account = require('../models/account');
-
-// src/controllers/fixedDepositController.js
 
 exports.createFD = async (req, res) => {
     try {
@@ -12,23 +9,44 @@ exports.createFD = async (req, res) => {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
+        // Find the account to ensure it exists and retrieve its current balance
+        const account = await Account.findById(accountId);
+
+        if (!account) {
+            return res.status(404).json({ message: 'Account not found' });
+        }
+
+        // Check if the account has at least double the FD amount
+        if (account.balance < amount * 2) {
+            return res.status(400).json({ message: 'Insufficient funds. You need to have at least double the FD amount in your account.' });
+        }
+
+        // Calculate the new balance after subtracting the FD amount
+        account.balance -= amount;
+        await account.save();
+
+        const startDate = new Date();
+        const endDate = new Date(startDate);
+        endDate.setMonth(endDate.getMonth() + term); 
+
         const fixedDeposit = new FixedDeposit({
             accountId,
             amount,
             term,
-            interestRate
+            interestRate,
+            startDate,
+            endDate
         });
 
         await fixedDeposit.save();
-
         res.status(201).json({ message: 'Fixed Deposit created successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Server error' });
+        console.error(error); 
+        res.status(500).json({ message: error.message });
     }
 };
 
 
-// Get all Fixed Deposits for an account
 exports.getFDsByAccount = async (req, res) => {
     try {
         const { accountId } = req.params;
@@ -45,7 +63,7 @@ exports.getFDsByAccount = async (req, res) => {
     }
 };
 
-// Update Fixed Deposit status
+
 exports.updateFD = async (req, res) => {
     try {
         const { id } = req.params;
@@ -67,7 +85,7 @@ exports.updateFD = async (req, res) => {
     }
 };
 
-// Delete a Fixed Deposit
+
 exports.deleteFD = async (req, res) => {
     try {
         const { id } = req.params;

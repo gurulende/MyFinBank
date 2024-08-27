@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
-// Generating  JWT Token
 const generateToken = (id, role) => {
     return jwt.sign({ id, role }, process.env.JWT_SECRET, {
         expiresIn: '1h',
@@ -34,23 +33,19 @@ exports.loginUser = async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        // Check if the user exists
         const user = await User.findOne({ username });
 
         if (!user) {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
 
-        // Check if the password matches
         const isMatch = await user.matchPassword(password);
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
 
-        // Generate a token if authentication is successful
         const token = generateToken(user._id, user.role);
 
-        // Return user information along with the token
         res.json({
             _id: user._id,
             username: user.username,
@@ -64,7 +59,6 @@ exports.loginUser = async (req, res) => {
     }
 };
 
-
 exports.updateUserProfile = async (req, res) => {
     const { id } = req.user;
     const { username, password, phoneNumber } = req.body;
@@ -75,7 +69,7 @@ exports.updateUserProfile = async (req, res) => {
             user.username = username || user.username;
             user.phoneNumber = phoneNumber || user.phoneNumber;
             if (password) {
-                user.password = password;
+                user.password = await bcrypt.hash(password, 10); 
             }
             const updatedUser = await user.save();
             res.json({

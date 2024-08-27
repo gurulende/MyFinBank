@@ -1,6 +1,6 @@
 const Chat = require('../models/chat');
 
-// Get all chat messages
+
 exports.getMessages = async (req, res) => {
     try {
         const messages = await Chat.find().sort({ createdAt: -1 });
@@ -10,7 +10,7 @@ exports.getMessages = async (req, res) => {
     }
 };
 
-// Post a new chat message
+
 exports.postMessage = async (req, res) => {
     const { message } = req.body;
     

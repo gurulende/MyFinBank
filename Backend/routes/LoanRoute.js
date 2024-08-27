@@ -10,6 +10,8 @@ router.post('/apply', protect, loanController.applyForLoan);
 router.put('/update/:id', protect, admin, loanController.updateLoanStatus);
 
 // Get all loans
-router.get('/all', protect, loanController.getAllLoans);
+router.get('/all', protect,admin, loanController.getAllLoans);
+
+router.post('/emi', protect, loanController.calculateEMI);
 
 module.exports = router;

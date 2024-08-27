@@ -1,13 +1,10 @@
-// controllers/recurringDepositController.js
 const RecurringDeposit = require('../models/recurringDeposit');
 const Account = require('../models/account');
 
-// Create a new Recurring Deposit
 exports.createRD = async (req, res) => {
     try {
         const { accountId, monthlyAmount, term, interestRate } = req.body;
 
-        // Validate input
         if (!accountId || !monthlyAmount || !term || !interestRate) {
             return res.status(400).json({ message: 'All fields are required' });
         }
@@ -30,7 +27,6 @@ exports.createRD = async (req, res) => {
     }
 };
 
-// Get all Recurring Deposits for an account
 exports.getRDsByAccount = async (req, res) => {
     try {
         const { accountId } = req.params;
@@ -47,7 +43,6 @@ exports.getRDsByAccount = async (req, res) => {
     }
 };
 
-// Update Recurring Deposit status
 exports.updateRD = async (req, res) => {
     try {
         const { id } = req.params;
@@ -69,7 +64,6 @@ exports.updateRD = async (req, res) => {
     }
 };
 
-// Delete a Recurring Deposit
 exports.deleteRD = async (req, res) => {
     try {
         const { id } = req.params;

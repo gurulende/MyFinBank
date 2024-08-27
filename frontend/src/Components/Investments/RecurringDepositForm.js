@@ -72,7 +72,6 @@ const RecurringDepositForm = () => {
         <div>
             <h2>Create Recurring Deposit</h2>
             <form onSubmit={handleCreateRD}>
-                {/* The accountId input field has been removed */}
                 <div className="mb-3">
                     <label htmlFor="monthlyAmount" className="form-label">Monthly Amount:</label>
                     <input

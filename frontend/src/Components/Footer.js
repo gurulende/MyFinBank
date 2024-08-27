@@ -1,23 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
 
 function Footer() {
-   
     return (
-        <footer className="bg-dark text-white text-center py-3 mt-5">
-            <p>&copy; 2024 MyFIN Bank.</p>
-            <ul className="list-unstyled">
-                <li><a href="/" className="text-white">About Us</a></li>
-                <li><a href="/" className="text-white">Contact</a></li>
-                <li><a href="/applyloan" className="text-white">Apply Loan</a></li>
-                 <Link to={`/accountdetails`} className="text-white">
-                            View Details for Account
-                        </Link>
-              <li><a href="/manageloans" className="text-white">Manage Loans</a></li>
-
-            </ul>
+        <footer className="text-center mt-5 mb-4 bg-dark text-white py-3">
+            <p className="mb-2">&copy; 2024 MyFIN Bank. All rights reserved.</p>
+            <a href="/contact" className="btn btn-outline-light">Contact Us</a>
         </footer>
     );
 }
