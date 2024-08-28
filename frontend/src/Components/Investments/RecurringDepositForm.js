@@ -1,4 +1,3 @@
-// src/Components/RecurringDeposit/RecurringDepositForm.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -6,7 +5,6 @@ const RecurringDepositForm = () => {
     const [accountId, setAccountId] = useState('');
     const [monthlyAmount, setMonthlyAmount] = useState('');
     const [term, setTerm] = useState('');
-    const [interestRate, setInterestRate] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -24,9 +22,13 @@ const RecurringDepositForm = () => {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
-                setAccountId(response.data._id); // or response.data.accountId depending on your API response structure
+                if (response.data) {
+                    setAccountId(response.data._id);
+                } else {
+                    setError('No account found for the user');
+                }
             } catch (error) {
-                setError('Failed to fetch account details');
+                setError(error.response?.data?.message || 'Failed to fetch account details');
             }
         };
 
@@ -36,8 +38,8 @@ const RecurringDepositForm = () => {
     const handleCreateRD = async (e) => {
         e.preventDefault();
 
-        if (!monthlyAmount || !term || !interestRate) {
-            setError('All fields are required');
+        if (!monthlyAmount || !term) {
+            setError('Monthly Amount and Term are required');
             return;
         }
 
@@ -51,14 +53,13 @@ const RecurringDepositForm = () => {
 
             const response = await axios.post(
                 'http://localhost:5000/api/recurringDeposit/create',
-                { accountId, monthlyAmount, term, interestRate },
+                { accountId, monthlyAmount, term }, // Interest rate is fixed at 8%
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
             setMessage(response.data.message);
             setMonthlyAmount('');
             setTerm('');
-            setInterestRate('');
             setError('');
         } catch (error) {
             setError(error.response?.data?.message || 'Failed to create Recurring Deposit');
@@ -85,14 +86,14 @@ const RecurringDepositForm = () => {
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="term" className="form-label">Term (in months):</label>
+                    <label htmlFor="term" className="form-label">Term (months):</label>
                     <input
                         type="number"
                         id="term"
                         className="form-control"
                         value={term}
                         onChange={(e) => setTerm(e.target.value)}
-                        placeholder="Enter Term in Months"
+                        placeholder="Enter Term"
                         required
                     />
                 </div>
@@ -100,12 +101,11 @@ const RecurringDepositForm = () => {
                     <label htmlFor="interestRate" className="form-label">Interest Rate (%):</label>
                     <input
                         type="number"
+                        step="0.01"
                         id="interestRate"
                         className="form-control"
-                        value={interestRate}
-                        onChange={(e) => setInterestRate(e.target.value)}
-                        placeholder="Enter Interest Rate"
-                        required
+                        value={8} // Fixed interest rate
+                        readOnly
                     />
                 </div>
                 <button type="submit" className="btn btn-primary" disabled={loading}>

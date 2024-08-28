@@ -90,6 +90,8 @@
 // }
 
 // export default App;
+
+
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Navbar from './Components/Navbar';
@@ -101,12 +103,11 @@ import { AuthProvider, useAuth } from './Components/context/authContext';
 import './App.css';
 
 const AppContent = () => {
-    const { auth } = useAuth(); // Ensure this hook is used inside a component wrapped by AuthProvider
+    const { auth } = useAuth(); 
 
     return (
         <div className="d-flex flex-column min-vh-100">
             <Navbar />
-            
             <div className="flex-grow-1">
                 {auth.token ? (
                     auth.role === 'admin' ? <AdminRoutes /> : <CustomerRoutes />

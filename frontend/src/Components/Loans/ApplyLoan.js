@@ -3,11 +3,12 @@ import axios from 'axios';
 
 const ApplyLoan = () => {
     const [amount, setAmount] = useState('');
-    const [interestRate, setInterestRate] = useState('');
     const [tenure, setTenure] = useState('');
     const [accountId, setAccountId] = useState('');
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
+    const [emi, setEmi] = useState(null);
+
     useEffect(() => {
         const fetchAccountId = async () => {
             try {
@@ -46,7 +47,7 @@ const ApplyLoan = () => {
         try {
             const response = await axios.post(
                 'http://localhost:5000/api/loans/apply',
-                { amount, interestRate, tenure, accountId },
+                { amount, tenure, accountId },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -56,9 +57,9 @@ const ApplyLoan = () => {
             );
             setSuccess('Loan application submitted successfully');
             setError(null);
+            setEmi(response.data.emi);  // Update EMI from response
             // Clear form fields
             setAmount('');
-            setInterestRate('');
             setTenure('');
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to apply for loan');
@@ -82,17 +83,6 @@ const ApplyLoan = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="interestRate">Interest Rate</label>
-                    <input
-                        id="interestRate"
-                        type="number"
-                        className="form-control"
-                        value={interestRate}
-                        onChange={(e) => setInterestRate(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
                     <label htmlFor="tenure">Tenure (Months)</label>
                     <input
                         id="tenure"
@@ -107,6 +97,7 @@ const ApplyLoan = () => {
             </form>
             {error && <div className="alert alert-danger mt-3">{error}</div>}
             {success && <div className="alert alert-success mt-3">{success}</div>}
+            {emi && <div className="alert alert-info mt-3">Your EMI: {emi.toFixed(2)}</div>}
         </div>
     );
 };

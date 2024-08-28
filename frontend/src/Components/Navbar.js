@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from './context/authContext';
-import { FaUserCircle } from 'react-icons/fa';
-import './Navbar.css'; // Ensure you create this CSS file for additional styling
+import './Navbar.css'; // Ensure this CSS file is correctly linked
 
 function Navbar() {
     const { auth, logout } = useAuth();
@@ -94,13 +93,6 @@ function Navbar() {
                         </li>
                     </ul>
 
-                    {/* User Profile Icon */}
-                    {auth.token && (
-                        <div className="d-flex align-items-center ms-auto">
-                            <FaUserCircle size={30} className="text-light me-2" />
-                            <span className="text-light">{auth.username}</span>
-                        </div>
-                    )}
                 </div>
             </div>
         </nav>

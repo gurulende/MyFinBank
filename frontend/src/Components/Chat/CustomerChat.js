@@ -102,14 +102,16 @@ const CustomerChat = () => {
 
     return (
         <div className="chat-container">
-            <h2>Customer Chat</h2>
+            <h2 className="chat-header">Customer Chat</h2>
             {loading && <p className="loading">Loading...</p>}
             {error && <p className="error">{error}</p>}
             <div className="message-container">
                 {messages.map(msg => (
                     <div key={msg._id} className={`message ${msg.senderId === userId ? 'sent' : 'received'}`}>
-                        <strong>{msg.senderId.username}:</strong> {msg.message}
-                        <span className="timestamp">{new Date(msg.createdAt).toLocaleTimeString()}</span>
+                        <div className="message-content">
+                            <strong>{msg.senderId.username}:</strong> {msg.message}
+                        </div>
+                        <span className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
                     </div>
                 ))}
                 <div ref={endOfMessagesRef} />

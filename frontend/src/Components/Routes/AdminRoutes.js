@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AdminDashboard from '../Dashboards/AdminDashboard';
-import Users from '../Users';
+import Users from '../UsersUpdate/AllUsers';
 import AllAccounts from '../Accounts/AllAccount';
 import ManageLoans from '../Loans/ManageLoans';
 import ViewAccount from '../Accounts/ViewAccount';
@@ -10,6 +10,7 @@ import AdminChat from '../Chat/AdminChat';
 import ProtectedRoute from './ProtecteRoute';
 import Home from '../Pages/Home';
 import EmailNotification from '../Email/EmailNotification';
+import UserAccountsList from '../Accounts/UserAccountsList';
 
 const AdminRoutes = () => (
     <Routes>
@@ -22,7 +23,9 @@ const AdminRoutes = () => (
         <Route path="/editaccount/:id" element={<ProtectedRoute element={<EditAccount />} roles={['admin']} />} />
         <Route path="/adminchat" element={<ProtectedRoute element={<AdminChat />} roles={['admin']} />} />
         <Route path="/emailnotification" element={<ProtectedRoute element={<EmailNotification />} roles={['admin']} />} />
-    </Routes>
+     <Route path="/ UserAccountsList" element={<ProtectedRoute element={< UserAccountsList />} roles={['admin']} />} />
+     </Routes>
+   
 );
 
 export default AdminRoutes;

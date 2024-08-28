@@ -1,4 +1,3 @@
-// src/Components/FixedDeposit/FixedDepositForm.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -6,7 +5,6 @@ const FixedDepositForm = () => {
     const [accountId, setAccountId] = useState('');
     const [amount, setAmount] = useState('');
     const [term, setTerm] = useState('');
-    const [interestRate, setInterestRate] = useState(7); // Set default interest rate to 7%
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -55,14 +53,13 @@ const FixedDepositForm = () => {
 
             const response = await axios.post(
                 'http://localhost:5000/api/fixedDeposit/create',
-                { accountId, amount, term, interestRate },
+                { accountId, amount, term }, // Interest rate is fixed at 7%
                 { headers: { Authorization: `Bearer ${token}` } }
             );
 
             setMessage(response.data.message);
             setAmount('');
             setTerm('');
-            setInterestRate(7); // Reset to default value
             setError('');
         } catch (error) {
             setError(error.response?.data?.message || 'Failed to create Fixed Deposit');
@@ -107,10 +104,8 @@ const FixedDepositForm = () => {
                         step="0.01"
                         id="interestRate"
                         className="form-control"
-                        value={interestRate}
-                        onChange={(e) => setInterestRate(e.target.value)}
-                        placeholder="Enter Interest Rate"
-                        readOnly // Make the field read-only if you want to enforce the default interest rate
+                        value={7} // Fixed interest rate
+                        readOnly
                     />
                 </div>
                 <button type="submit" className="btn btn-primary" disabled={loading}>

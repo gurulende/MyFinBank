@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import Users from '../Users';
+import Users from '../UsersUpdate/AllUsers';
 import AllAccounts from '../Accounts/AllAccount';
 import ManageLoans from '../Loans/ManageLoans';
 import ViewAccount from '../Accounts/ViewAccount';
 import EditAccount from '../Accounts/EditAccount';
+import UserAccountsList from '../Accounts/UserAccountsList'; // Import the UserAccountsList component
 
 const AdminDashboard = () => {
     const [currentView, setCurrentView] = useState('users');
@@ -29,6 +30,8 @@ const AdminDashboard = () => {
                 return <ViewAccount />;
             case 'editAccount':
                 return <EditAccount />;
+            case 'userAccountsList': // Add case for UserAccountsList
+                return <UserAccountsList />;
             default:
                 return <Users />;
         }
@@ -65,7 +68,14 @@ const AdminDashboard = () => {
                                     Manage Loans
                                 </button>
                             </li>
-                          
+                            <li className="nav-item">
+                                <button 
+                                    className={`nav-link ${currentView === 'userAccountsList' ? 'active' : ''}`} 
+                                    onClick={() => handleViewChange('userAccountsList')}
+                                >
+                                    User Accounts List
+                                </button>
+                            </li>
                         </ul>
                     </div>
                 </nav>

@@ -1,0 +1,82 @@
+/* RecurringDepositTerms.css */
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.terms-section {
+  margin-bottom: 40px;
+}
+
+.terms-section h2 {
+  margin-top: 20px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.terms-section p, .terms-section ul {
+  font-size: 1em;
+  color: #666;
+}
+
+.terms-section ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.calculator-section {
+  margin-top: 20px;
+}
+
+.calculator-section h2 {
+  font-size: 1.5em;
+  color: #333;
+}
+
+.calculator {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.calculator label {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 1em;
+}
+
+.calculator input {
+  width: calc(100% - 22px);
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.calculator button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.calculator button:hover {
+  background-color: #0056b3;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #333;
+}

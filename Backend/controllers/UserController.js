@@ -8,19 +8,17 @@ const generateToken = (id, role) => {
 
 
 };
-
-
 exports.registerUser = async (req, res) => {
-    const { username, password, role, phoneNumber } = req.body;
+    const { username, password, role, phoneNumber, email } = req.body;
 
     try {
-        const userExists = await User.findOne({ username });
+        const userExists = await User.findOne({ email });
 
         if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(400).json({ message: 'Email already in use' });
         }
 
-        const user = await User.create({ username, password, role, phoneNumber });
+        const user = await User.create({ username, password, role, phoneNumber, email });
         res.status(201).json(user);
     } catch (error) {
         console.error('Error during user registration:', error);
@@ -57,16 +55,16 @@ exports.loginUser = async (req, res) => {
         res.status(500).json({ message: 'Server error', error });
     }
 };
-
 exports.updateUserProfile = async (req, res) => {
     const { id } = req.user;
-    const { username, password, phoneNumber } = req.body;
+    const { username, password, phoneNumber, email } = req.body;
 
     try {
         const user = await User.findById(id);
         if (user) {
             user.username = username || user.username;
             user.phoneNumber = phoneNumber || user.phoneNumber;
+            user.email = email || user.email;
             if (password) {
                 user.password = await bcrypt.hash(password, 10); 
             }
@@ -75,6 +73,7 @@ exports.updateUserProfile = async (req, res) => {
                 _id: updatedUser._id,
                 username: updatedUser.username,
                 phoneNumber: updatedUser.phoneNumber,
+                email: updatedUser.email,
                 role: updatedUser.role,
                 status: updatedUser.status,
             });
@@ -85,6 +84,7 @@ exports.updateUserProfile = async (req, res) => {
         res.status(500).json({ message: 'Server error', error });
     }
 };
+
 
 exports.getUserProfile = async (req, res) => {
     if (!req.user) {
@@ -99,6 +99,7 @@ exports.getUserProfile = async (req, res) => {
                 username: user.username,
                 role: user.role,
                 phoneNumber: user.phoneNumber,
+                email: user.email,
             });
         } else {
             res.status(404).json({ message: 'User not found' });
@@ -107,6 +108,7 @@ exports.getUserProfile = async (req, res) => {
         res.status(500).json({ message: 'Server error', error });
     }
 };
+
 
 exports.getAllUsers = async (req, res) => {
     try {
@@ -177,10 +179,6 @@ exports.activateUser = async (req, res) => {
 };
 
 
-// src/controllers/UserController.js
-// src/controllers/UserController.js
-
-// Example: Get admin by username
 exports.getAdminDetails = async (req, res) => {
     try {
         const adminUsername = 'admin'; 

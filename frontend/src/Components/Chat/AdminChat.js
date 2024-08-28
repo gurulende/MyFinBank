@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import './AdminChat.css'; // Ensure you create this CSS file
+import './AdminChat.css'; 
 
 const AdminChat = () => {
     const [messages, setMessages] = useState([]);

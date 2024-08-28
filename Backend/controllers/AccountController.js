@@ -1,9 +1,13 @@
 const Account = require('../models/account');
+const User = require('../models/user');
+const Transaction = require('../models/transaction'); // Adjust the path as necessary
+
 
 const generateUniqueAccountNumber = () => {
     const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000);
     return randomNumber.toString();
 };
+
 
 exports.createAccount = async (req, res) => {///to create a account
     try {
@@ -33,14 +37,33 @@ exports.createAccount = async (req, res) => {///to create a account
 };
 
 
-exports.getAllAccounts = async (req, res) => {//to get all accounts
+exports.getAllAccounts = async (req, res) => {
     try {
-        const accounts = await Account.find();
-        res.json(accounts);
+        // Fetch all accounts and populate user details
+        const accounts = await Account.find()
+            .populate({
+                path: 'user', // The field in Account schema that references User
+                select: 'username email phoneNumber' // Fields to be returned from User schema
+            });
+
+        // Format the response to include customer details with account details
+        const formattedAccounts = accounts.map(account => ({
+            accountId: account._id,
+            amount: account.amount,
+            type: account.type,
+            user: {
+                username: account.user.username,
+                email: account.user.email,
+                phoneNumber: account.user.phoneNumber
+            }
+        }));
+
+        res.json(formattedAccounts);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 exports.getAccountById = async (req, res) => {//to get account by id
     try {
@@ -52,6 +75,7 @@ exports.getAccountById = async (req, res) => {//to get account by id
     }
 };
 
+
 exports.updateAccount = async (req, res) => {//to update account
     try {
         const account = await Account.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -61,6 +85,7 @@ exports.updateAccount = async (req, res) => {//to update account
         res.status(400).json({ message: error.message });
     }
 };
+
 
 
 exports.deleteAccount = async (req, res) => {//to delete account
@@ -77,8 +102,6 @@ exports.deleteAccount = async (req, res) => {//to delete account
 
 
 
-// Get Account for Logged-in User
-// controllers/accountController.js// Get Account for Logged-in User
 exports.getMyAccount = async (req, res) => {
     try {
         // Ensure req.user.id is available
@@ -93,5 +116,103 @@ exports.getMyAccount = async (req, res) => {
     } catch (error) {
         console.error('Error fetching account for logged-in user:', error);
         res.status(500).json({ message: 'Server error', details: error.message });
+    }
+};// Simulate sending an email notification
+
+exports.
+checkAndNotifyZeroBalance = async (req, res) => {
+    try {
+        // Fetch all accounts and populate user details
+        const accounts = await Account.find().populate('user');
+        
+        // Filter accounts with zero balance
+        const zeroBalanceAccounts = accounts.filter(account => account.amount === 0);
+
+        // Array to hold email notification details
+        const emailDetails = [];
+
+        if (zeroBalanceAccounts.length > 0) {
+            // Find the admin user
+            const admin = await User.findOne({ role: 'admin' }).select('email');
+            
+            if (admin) {
+                zeroBalanceAccounts.forEach(account => {
+                    // Collect details for response
+                    emailDetails.push({
+                        accountId: account._id, // Include the account ID
+                        username: account.user.username, // Include the username
+                        amount: account.amount
+                    });
+                });
+            } else {
+                emailDetails.push({ message: 'Admin not found' });
+            }
+        } else {
+            emailDetails.push({ message: 'No New Mail' });
+        }
+
+        // Send response with details
+        res.json({ message: `New Mail: ${zeroBalanceAccounts.length} account(s) with zero balance.`, details: emailDetails });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+exports.getAllUsersWithAccounts = async (req, res) => {
+    try {
+        // Fetch all users with the role 'customer'
+        const users = await User.find({ role: 'customer' }).select('-password');
+        
+        // Fetch accounts and associated transactions for each user
+        const userAccountsPromises = users.map(async (user) => {
+            const account = await Account.findOne({ user: user._id });
+            
+            if (account) {
+                // Fetch transactions where the account is either sender or receiver
+                const transactions = await Transaction.find({
+                    $or: [
+                        { senderAccountId: account._id },
+                        { receiverAccountId: account._id }
+                    ]
+                }).populate('senderAccountId receiverAccountId loanId investmentId'); // Populate references if needed
+
+                return {
+                    user: {
+                        _id: user._id,
+                        username: user.username,
+                        email: user.email,
+                        phoneNumber: user.phoneNumber,
+                        role: user.role,
+                        status: user.status,
+                    },
+                    account: {
+                        accountId: account._id,
+                        amount: account.amount,
+                        type: account.type,
+                        transactions: transactions 
+                    }
+                };
+            } else {
+                return {
+                    user: {
+                        _id: user._id,
+                        username: user.username,
+                        email: user.email,
+                        phoneNumber: user.phoneNumber,
+                        role: user.role,
+                        status: user.status,
+                    },
+                    account: null
+                };
+            }
+        });
+
+        // Resolve all promises
+        const userAccounts = await Promise.all(userAccountsPromises);
+
+        res.json(userAccounts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };

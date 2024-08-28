@@ -3,10 +3,12 @@ const express = require('express');
 const router = express.Router();
 const RecurringDepositController = require('../controllers/RecurringDepositController');
 const { protect } = require('../middleware/auth');
+const checkUserStatus = require('../middleware/checkUserStatus');
+
 
 
 // Create a new Recurring Deposit
-router.post('/create',protect, RecurringDepositController.createRD);
+router.post('/create',protect,checkUserStatus, RecurringDepositController.createRD);
 
 // Get all Recurring Deposits for an account
 router.get('/account/:accountId', RecurringDepositController.getRDsByAccount);

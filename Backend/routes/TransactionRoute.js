@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const transactionController = require('../controllers/transactionController');
+const transactionController = require('../controllers/TransactionController');
 const { protect, admin } = require('../middleware/auth');
+const checkUserStatus = require('../middleware/checkUserStatus');
 
 router.post('/', admin, transactionController.createTransaction);
 router.get('/', protect, transactionController.getTransactions);
 router.get('/:id', admin, transactionController.getTransactionById);
 
-router.post('/:id/deposit', protect, transactionController.deposit);
-router.post('/:id/withdraw', protect, transactionController.withdraw);
+router.post('/:id/deposit', protect, checkUserStatus, transactionController.deposit);
+router.post('/:id/withdraw', protect, checkUserStatus, transactionController.withdraw);
 
-router.post('/transfer', protect, transactionController.transfer);
-
+router.post('/transfer', protect, checkUserStatus, transactionController.transfer);
 
 module.exports = router;

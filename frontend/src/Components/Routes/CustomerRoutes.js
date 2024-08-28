@@ -10,7 +10,7 @@ import AccountCreation from '../Accounts/AccountCreation';
 import CustomerChat from '../Chat/CustomerChat';
 import ProtectedRoute from './ProtecteRoute';
 import Home from '../Pages/Home';
-import Profile from '../Profiles';
+import Profile from '../UsersUpdate/UpdateProfile';
 
 const CustomerRoutes = () => (
     <Routes>

@@ -2,21 +2,33 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 
+
 const Register = () => {
-    const [formData, setFormData] = useState({ username: '', password: '', phoneNumber: '', role: 'customer' }); // Default role set to 'customer'
+    const [formData, setFormData] = useState({ username: '', password: '', phoneNumber: '', email: '', role: 'customer' });
     const [error, setError] = useState('');
     const [phoneError, setPhoneError] = useState('');
+    const [emailError, setEmailError] = useState('');
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
         // Phone number validation
         if (e.target.name === 'phoneNumber') {
-            const phonePattern = /^\d{10}$/; // Regular expression for exactly 10 digits
+            const phonePattern = /^\d{10}$/; 
             if (!phonePattern.test(e.target.value)) {
                 setPhoneError('Phone number must be exactly 10 digits');
             } else {
                 setPhoneError('');
+            }
+        }
+
+        // Email validation
+        if (e.target.name === 'email') {
+            const emailPattern = /\S+@\S+\.\S+/;
+            if (!emailPattern.test(e.target.value)) {
+                setEmailError('Please enter a valid email address');
+            } else {
+                setEmailError('');
             }
         }
     };
@@ -24,8 +36,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Final check for phone number validation before submission
-        if (phoneError) {
+        if (phoneError || emailError) {
             return;
         }
 
@@ -61,6 +72,20 @@ const Register = () => {
                             <div className="invalid-feedback">Please provide a username.</div>
                         </div>
                         <div className="mb-3">
+                            <label htmlFor="email" className="form-label">Email</label>
+                            <input 
+                                type="email" 
+                                className={`form-control ${emailError ? 'is-invalid' : ''}`} 
+                                id="email" 
+                                name="email" 
+                                value={formData.email}
+                                onChange={handleChange} 
+                                placeholder="Enter your email" 
+                                required 
+                            />
+                            <div className="invalid-feedback">{emailError || 'Please provide an email address.'}</div>
+                        </div>
+                        <div className="mb-3">
                             <label htmlFor="password" className="form-label">Password</label>
                             <input 
                                 type="password" 
@@ -88,7 +113,6 @@ const Register = () => {
                             />
                             <div className="invalid-feedback">{phoneError || 'Please provide a phone number.'}</div>
                         </div>
-                        {/* Role selection dropdown (hidden to the user) */}
                         <input 
                             type="hidden" 
                             id="role" 
@@ -96,7 +120,7 @@ const Register = () => {
                             value={formData.role} 
                         />
                         {error && <div className="alert alert-danger mt-3">{error}</div>}
-                        <button type="submit" className="btn btn-primary w-100" disabled={phoneError}>Register</button>
+                        <button type="submit" className="btn btn-primary w-100" disabled={phoneError || emailError}>Register</button>
                     </form>
                 </div>
             </div>

@@ -2,34 +2,36 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-        username: { 
-                        type: String, 
-                        required: true, 
-                        unique: true 
-                    },
-
-        password: { 
-                        type: String, 
-                        required: true 
-                    },
-
-        role: { 
-                    type: String,enum: ['admin', 'customer'], 
-                    default: 'customer' 
-                },
-                
-        
-        phoneNumber: { 
-                        type: String,
-                        match: [/^\d{10}$/, 'Phone number must be 10 digits']
-                    },
-                    
-        status: { 
-                        type: String, enum: ['active', 'inactive'], 
-                        default: 'active' 
-                    }
+    username: { 
+        type: String, 
+        required: true, 
+        unique: true 
+    },
+    password: { 
+        type: String, 
+        required: true 
+    },
+    email: { 
+        type: String, 
+        required: true, 
+        unique: true,
+        match: [/\S+@\S+\.\S+/, 'Please enter a valid email address']
+    },
+    role: { 
+        type: String,
+        enum: ['admin', 'customer'], 
+        default: 'customer' 
+    },
+    phoneNumber: { 
+        type: String,
+        match: [/^\d{10}$/, 'Phone number must be 10 digits']
+    },
+    status: { 
+        type: String, 
+        enum: ['active', 'inactive'], 
+        default: 'active' 
+    }
 });
-
 
 userSchema.pre('save', async function(next) {
     if (!this.isModified('password')) {
@@ -38,7 +40,6 @@ userSchema.pre('save', async function(next) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
 });
-
 
 userSchema.methods.matchPassword = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
