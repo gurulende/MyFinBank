@@ -93,7 +93,7 @@ const ApplyLoan = () => {
                         required
                     />
                 </div>
-                <button type="submit" className="btn btn-primary">Apply</button>
+                <button type="submit" className="btn btn-outline-secondary">Apply</button>
             </form>
             {error && <div className="alert alert-danger mt-3">{error}</div>}
             {success && <div className="alert alert-success mt-3">{success}</div>}

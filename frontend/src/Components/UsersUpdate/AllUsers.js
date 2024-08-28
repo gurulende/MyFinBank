@@ -6,25 +6,28 @@ const Users = () => {
     const [error, setError] = useState(null);
     const token = localStorage.getItem('token');
 
+    // Function to fetch users from the backend
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/users/all', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            // Log the raw response data to debug
+            console.log('Fetched users:', response.data);
+
+            // Filter only customers and use their current status
+            const customers = response.data.filter(user => user.role === 'customer');
+            setUsers(customers);
+        } catch (err) {
+            setError('Failed to fetch users');
+            console.error('Error fetching users', err);
+        }
+    };
+
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/users/all', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-
-                // Set all users to active by default
-                const activeUsers = response.data.map(user => ({ ...user, active: true }));
-
-                setUsers(activeUsers);
-            } catch (err) {
-                setError('Failed to fetch users');
-                console.error('Error fetching users', err);
-            }
-        };
-
         fetchUsers();
     }, [token]);
 
@@ -35,13 +38,18 @@ const Users = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setUsers(prevUsers => prevUsers.map(user => user._id === id ? { ...user, active: true } : user));
+
+            // Log to confirm activation request
+            console.log(`User ${id} activated`);
+            
+            // Refetch users after activation
+            fetchUsers();
         } catch (err) {
             setError('Failed to activate user');
             console.error('Error activating user', err);
         }
     };
-    
+
     const handleDeactivate = async (id) => {
         try {
             await axios.put(`http://localhost:5000/api/users/profile/${id}/deactivate`, {}, {
@@ -49,20 +57,25 @@ const Users = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            setUsers(prevUsers => prevUsers.map(user => user._id === id ? { ...user, active: false } : user));
+
+            // Log to confirm deactivation request
+            console.log(`User ${id} deactivated`);
+            
+            // Refetch users after deactivation
+            fetchUsers();
         } catch (err) {
             setError('Failed to deactivate user');
             console.error('Error deactivating user', err);
         }
     };
-    
+
     if (error) {
-        return <div>{error}</div>;
+        return <div className="alert alert-danger">{error}</div>;
     }
 
     return (
         <div>
-            <h2>Users List</h2>
+            <h2 className="mb-4">Customers List</h2>
             <table className="table table-bordered">
                 <thead>
                     <tr>
@@ -73,30 +86,36 @@ const Users = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map(user => (
-                        <tr key={user._id}>
-                            <td>{user.username}</td>
-                            <td>{user.role}</td>
-                            <td>{user.active ? 'Active' : 'Inactive'}</td>
-                            <td>
-                                {user.active ? (
-                                    <button 
-                                        onClick={() => handleDeactivate(user._id)} 
-                                        className="btn btn-warning"
-                                    >
-                                        Deactivate
-                                    </button>
-                                ) : (
-                                    <button 
-                                        onClick={() => handleActivate(user._id)} 
-                                        className="btn btn-success"
-                                    >
-                                        Activate
-                                    </button>
-                                )}
-                            </td>
+                    {users.length === 0 ? (
+                        <tr>
+                            <td colSpan="4">No customers found.</td>
                         </tr>
-                    ))}
+                    ) : (
+                        users.map(user => (
+                            <tr key={user._id}>
+                                <td>{user.username}</td>
+                                <td>{user.role}</td>
+                                <td>{user.status === 'active' ? 'Active' : 'Inactive'}</td>
+                                <td>
+                                    {user.status === 'active' ? (
+                                        <button 
+                                            onClick={() => handleDeactivate(user._id)} 
+                                            className="btn btn-outline-warning"
+                                        >
+                                            Deactivate
+                                        </button>
+                                    ) : (
+                                        <button 
+                                            onClick={() => handleActivate(user._id)} 
+                                            className="btn btn-outline-success"
+                                        >
+                                            Activate
+                                        </button>
+                                    )}
+                                </td>
+                            </tr>
+                        ))
+                    )}
                 </tbody>
             </table>
         </div>

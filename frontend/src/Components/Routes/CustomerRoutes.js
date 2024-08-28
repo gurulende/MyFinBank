@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import UserDashboard from '../Dashboards/UserDashboard';
-import AccountDetails from '../Pages/AccountDetails';
+import AccountDetails from '../Accounts/AccountDetails';
 import LoanApplicationForm from '../Loans/ApplyLoan';
 import FixedDepositForm from '../Investments/FixedDepositForm';
 import RecurringDepositForm from '../Investments/RecurringDepositForm';

@@ -54,7 +54,7 @@ const Home = () => {
                         <div className="card-body">
                             <h5 className="card-title">Personal Loans</h5>
                             <p className="card-text">Get loans at a competitive interest rate of 14%. Simplify your financial needs with us.</p>
-                            <a href="/loans" className="btn btn-primary">Learn More</a>
+                            <a href="/loans" className="btn btn-outline-info">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@ const Home = () => {
                         <div className="card-body">
                             <h5 className="card-title">Fixed Deposits</h5>
                             <p className="card-text">Enjoy guaranteed returns with our FD offering 7% interest. Secure your future today.</p>
-                            <a href="/fixeddepositterms" className="btn btn-primary">Learn More</a>
+                            <a href="/fixeddepositterms" className="btn btn-outline-info">Learn More</a>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@ const Home = () => {
                         <div className="card-body">
                             <h5 className="card-title">Recurring Deposits</h5>
                             <p className="card-text">Make regular savings with our RD offering 8% interest. Start your investment journey today.</p>
-                            <a href="/recurringdepositterms" className="btn btn-primary">Learn More</a>
+                            <a href="/recurringdepositterms" className="btn btn-outline-info">Learn More</a>
                         </div>
                     </div>
                 </div>

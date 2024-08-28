@@ -58,7 +58,7 @@ const Login = () => {
                             />
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-100">Login</button>
+                        <button type="submit" className="btn btn-outline-secondary w-100">Login</button>
 
                         {error && (
                             <div className="alert alert-danger mt-3" role="alert">

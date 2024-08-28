@@ -1,32 +1,55 @@
 /* Navbar.css */
+
+/* General Navbar Styles */
 .navbar {
-    padding: 0.5rem 1rem; /* Adjust padding to fit your design */
+  padding: 0.5rem 1rem; /* Adjust padding to fit your design */
+  margin-bottom: 0; /* Ensure the navbar is flush with the top of the page */
 }
 
+/* Navbar Nav Items */
 .navbar-nav {
-    flex-direction: row !important; /* Ensure links are in a row */
+  flex-direction: row !important; /* Ensure links are in a row */
 }
 
 .nav-item {
-    margin: 0 0.5rem; /* Add margin between items */
+  margin: 0 0.5rem; /* Add margin between items */
 }
 
+/* Navbar Links */
 .nav-link {
-    padding: 0.5rem 1rem; /* Adjust padding for links */
+  padding: 0.5rem 1rem; /* Adjust padding for links */
 }
 
-.btn-link {
-    padding: 0; /* Remove default button padding for navbar links */
-}
-
-.d-flex {
-    display: flex; /* Ensure flex properties are applied */
-}
-
-.ms-auto {
-    margin-left: auto; /* Align the profile icon to the right */
-}
-
+/* Navbar Toggler */
 .navbar-toggler {
-    border: none; /* Remove border for the toggler */
+  border: none; /* Remove border for the toggler */
+}
+
+/* Auth Links Container */
+.auth-links {
+  display: flex; /* Use flexbox for alignment */
+  gap: 10px; /* Space between buttons */
+}
+
+/* Styling for Auth Buttons */
+.auth-buttons .nav-link {
+  margin-right: 0; /* Ensure there's no extra margin */
+}
+
+/* Optional: Customize the appearance of the buttons */
+.btn-outline-light {
+  border: 1px solid #fff; /* White border for outline buttons */
+  color: #ffffff; /* White text color */
+  padding: 0.5rem 1rem; /* Add padding to buttons */
+}
+
+.btn-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.278); /* Light background on hover */
+}
+
+/* Responsive Navbar Adjustments */
+@media (max-width: 991px) {
+  .navbar-nav {
+    flex-direction: column; /* Stack items vertically on small screens */
+  }
 }

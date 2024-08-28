@@ -71,21 +71,21 @@ const AllAccounts = () => {
                                     </div>
                                     <div className="mt-3">
                                         <Button
-                                            variant="primary"
-                                            className="w-100 mb-2"
+                                            variant="btn btn-light"
+                                            className="  w-100 mb-2"
                                             onClick={() => handleView(account.accountId)}
                                         >
                                             View
                                         </Button>
                                         <Button
-                                            variant="secondary"
+                                            variant=" btn btn-outline-info"
                                             className="w-100 mb-2"
                                             onClick={() => handleEdit(account.accountId)}
                                         >
                                             Edit
                                         </Button>
                                         <Button
-                                            variant="danger"
+                                            variant="btn btn-outline-danger"
                                             className="w-100"
                                             onClick={() => handleDelete(account.accountId)}
                                         >

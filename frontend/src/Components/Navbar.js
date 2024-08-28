@@ -76,7 +76,7 @@ function Navbar() {
                         )}
 
                         {/* Auth Links */}
-                        <li className="nav-item">
+                        <li className="nav-item auth-links">
                             {auth.token ? (
                                 <button 
                                     className="nav-link btn btn-link text-light" 
@@ -85,14 +85,13 @@ function Navbar() {
                                     Logout
                                 </button>
                             ) : (
-                                <>
-                                    <Link className="nav-link" to="/register">Register</Link>
-                                    <Link className="nav-link" to="/login">Login</Link>
-                                </>
+                                <div className="auth-buttons">
+                                    <Link className="nav-link btn btn-outline-light" to="/register">Register</Link>
+                                    <Link className="nav-link btn btn-outline-light" to="/login">Login</Link>
+                                </div>
                             )}
                         </li>
                     </ul>
-
                 </div>
             </div>
         </nav>

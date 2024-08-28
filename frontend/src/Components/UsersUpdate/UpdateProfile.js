@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaUser, FaPhone } from 'react-icons/fa'; 
+import './UpdateProfile.css';
+
 
 const Profile = () => {
     const [user, setUser] = useState({ username: '', role: '', phoneNumber: '', email: '' });
@@ -123,7 +125,7 @@ const Profile = () => {
                             onChange={(e) => setNewEmail(e.target.value)} 
                         />
                     </div>
-                    <button className="btn btn-primary" onClick={handleUpdate}>Update Profile</button>
+                    <button className="btn btn-primary custom-btn" onClick={handleUpdate}>Update Profile</button>
                 </div>
             </div>
         </div>

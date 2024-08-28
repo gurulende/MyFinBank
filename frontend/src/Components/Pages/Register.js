@@ -120,7 +120,7 @@ const Register = () => {
                             value={formData.role} 
                         />
                         {error && <div className="alert alert-danger mt-3">{error}</div>}
-                        <button type="submit" className="btn btn-primary w-100" disabled={phoneError || emailError}>Register</button>
+                        <button type="submit" className="btn btn-outline-success w-100" disabled={phoneError || emailError}>Register</button>
                     </form>
                 </div>
             </div>

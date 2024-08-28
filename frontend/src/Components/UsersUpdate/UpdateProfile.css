@@ -1,0 +1,28 @@
+/* Profile.css */
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.card {
+  border-radius: 8px;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.custom-btn {
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+}
+
+.custom-btn:hover {
+  background-color: #0056b3;
+  border: none;
+}
+
+.alert {
+  border-radius: 8px;
+}

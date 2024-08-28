@@ -66,7 +66,7 @@ const AccountCreation = ({ onAccountCreated }) => {
                         <option value="Current">Current</option>
                     </select>
                 </div>
-                <button type="submit" className="btn btn-primary">Create Account</button>
+                <button type="submit" className="btn btn-outline-success">Create Account</button>
             </form>
             {accountCreationError && <div className="alert alert-danger mt-3">{accountCreationError}</div>}
             {accountCreationMessage && <div className="alert alert-success mt-3">{accountCreationMessage}</div>}
