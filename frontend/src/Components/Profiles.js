@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FaUser, FaPhone, FaKey } from 'react-icons/fa';
 
 const Profile = () => {
     const [user, setUser] = useState({ username: '', role: '', phoneNumber: '' });
@@ -57,19 +58,28 @@ const Profile = () => {
 
     return (
         <div className="container mt-5">
-            <h2 className="mb-4">User Profile</h2>
+            <h2 className="mb-4 text-center">User Profile</h2>
             {error && <div className="alert alert-danger">{error}</div>}
             {message && <div className="alert alert-success">{message}</div>}
 
-            <div className="card">
+            <div className="card shadow-sm">
                 <div className="card-body">
-                    <h5 className="card-title">Current Profile Information</h5>
-                    <p><strong>Username:</strong> {user.username}</p>
-                    <p><strong>Role:</strong> {user.role}</p>
-                    <p><strong>Phone Number:</strong> {user.phoneNumber}</p>
+                    <h5 className="card-title mb-4">Current Profile Information</h5>
+                    <div className="d-flex align-items-center mb-3">
+                        <FaUser size={24} className="me-2" />
+                        <p><strong>Username:</strong> {user.username}</p>
+                    </div>
+                    <div className="d-flex align-items-center mb-3">
+                        <p><strong>Role:</strong> {user.role}</p>
+                    </div>
+                    <div className="d-flex align-items-center mb-3">
+                        <FaPhone size={24} className="me-2" />
+                        <p><strong>Phone Number:</strong> {user.phoneNumber}</p>
+                    </div>
 
-                    <h5 className="mt-4">Update Profile</h5>
+                    <h5 className="mt-4 mb-3">Update Profile</h5>
                     <div className="mb-3">
+                        <label className="form-label">New Username</label>
                         <input 
                             type="text" 
                             className="form-control" 
@@ -79,6 +89,7 @@ const Profile = () => {
                         />
                     </div>
                     <div className="mb-3">
+                        <label className="form-label">New Password</label>
                         <input 
                             type="password" 
                             className="form-control" 
@@ -88,6 +99,7 @@ const Profile = () => {
                         />
                     </div>
                     <div className="mb-3">
+                        <label className="form-label">New Phone Number</label>
                         <input 
                             type="tel" 
                             className="form-control" 

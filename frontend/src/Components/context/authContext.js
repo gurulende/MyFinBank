@@ -3,24 +3,37 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState({ token: null, role: null });
+    const [auth, setAuth] = useState({ token: null, role: null, username: null });
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            const userRole = JSON.parse(atob(token.split('.')[1])).role;
-            setAuth({ token, role: userRole });
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const userRole = payload.role;
+                const username = payload.username;
+                setAuth({ token, role: userRole, username });
+            } catch (error) {
+                console.error('Invalid token', error);
+                localStorage.removeItem('token');
+            }
         }
     }, []);
 
     const login = (token) => {
-        const userRole = JSON.parse(atob(token.split('.')[1])).role;
-        setAuth({ token, role: userRole });
-        localStorage.setItem('token', token);
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const userRole = payload.role;
+            const username = payload.username;
+            setAuth({ token, role: userRole, username });
+            localStorage.setItem('token', token);
+        } catch (error) {
+            console.error('Invalid token', error);
+        }
     };
 
     const logout = () => {
-        setAuth({ token: null, role: null });
+        setAuth({ token: null, role: null, username: null });
         localStorage.removeItem('token');
     };
 
@@ -31,4 +44,10 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
+};

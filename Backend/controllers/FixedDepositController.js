@@ -1,6 +1,7 @@
 const FixedDeposit = require('../models/fixedDeposit');
 const Account = require('../models/account');
 
+
 exports.createFD = async (req, res) => {
     try {
         const { accountId, amount, term, interestRate } = req.body;
@@ -17,12 +18,12 @@ exports.createFD = async (req, res) => {
         }
 
         // Check if the account has at least double the FD amount
-        if (account.balance < amount * 2) {
+        if (account.amount < amount * 2) {
             return res.status(400).json({ message: 'Insufficient funds. You need to have at least double the FD amount in your account.' });
         }
 
         // Calculate the new balance after subtracting the FD amount
-        account.balance -= amount;
+        account.amount -= amount; // Ensure 'amount' is the correct field name
         await account.save();
 
         const startDate = new Date();
@@ -45,6 +46,7 @@ exports.createFD = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 
 exports.getFDsByAccount = async (req, res) => {

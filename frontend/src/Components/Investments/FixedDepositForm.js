@@ -6,7 +6,7 @@ const FixedDepositForm = () => {
     const [accountId, setAccountId] = useState('');
     const [amount, setAmount] = useState('');
     const [term, setTerm] = useState('');
-    const [interestRate, setInterestRate] = useState('');
+    const [interestRate, setInterestRate] = useState(7); // Set default interest rate to 7%
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -40,8 +40,8 @@ const FixedDepositForm = () => {
     const handleCreateFD = async (e) => {
         e.preventDefault();
 
-        if (!amount || !term || !interestRate) {
-            setError('All fields except Account ID are required');
+        if (!amount || !term) {
+            setError('Amount and Term are required');
             return;
         }
 
@@ -62,7 +62,7 @@ const FixedDepositForm = () => {
             setMessage(response.data.message);
             setAmount('');
             setTerm('');
-            setInterestRate('');
+            setInterestRate(7); // Reset to default value
             setError('');
         } catch (error) {
             setError(error.response?.data?.message || 'Failed to create Fixed Deposit');
@@ -110,7 +110,7 @@ const FixedDepositForm = () => {
                         value={interestRate}
                         onChange={(e) => setInterestRate(e.target.value)}
                         placeholder="Enter Interest Rate"
-                        required
+                        readOnly // Make the field read-only if you want to enforce the default interest rate
                     />
                 </div>
                 <button type="submit" className="btn btn-primary" disabled={loading}>

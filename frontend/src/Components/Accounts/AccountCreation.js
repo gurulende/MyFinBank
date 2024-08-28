@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const AccountCreation = ({ onAccountCreated }) => {
-    const [amount, setAmount] = useState('');  // Corrected to `setAmount`
+    const [amount, setAmount] = useState('');  
     const [accountType, setAccountType] = useState('Savings');
     const [accountCreationError, setAccountCreationError] = useState(null);
     const [accountCreationMessage, setAccountCreationMessage] = useState(null);
@@ -19,7 +19,7 @@ const AccountCreation = ({ onAccountCreated }) => {
 
         try {
             const accountData = {
-                amount: parseFloat(amount),  // Use `amount` to match Mongoose schema
+                amount: parseFloat(amount), 
                 type: accountType,
             };
 
@@ -30,9 +30,9 @@ const AccountCreation = ({ onAccountCreated }) => {
             });
 
             const newAccountId = response.data._id;
-            onAccountCreated(newAccountId); // Pass account ID to parent component
+            onAccountCreated(newAccountId);
             setAccountCreationMessage('Account created successfully');
-            setAmount('');  // Corrected to `setAmount`
+            setAmount(''); 
             setAccountType('Savings');
         } catch (err) {
             setAccountCreationError(err.response?.data?.message || 'Failed to create account');
@@ -51,7 +51,7 @@ const AccountCreation = ({ onAccountCreated }) => {
                         id="amount"
                         className="form-control"
                         value={amount}
-                        onChange={(e) => setAmount(e.target.value)}  // Corrected to `setAmount`
+                        onChange={(e) => setAmount(e.target.value)}  
                     />
                 </div>
                 <div className="mb-3">
