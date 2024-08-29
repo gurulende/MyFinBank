@@ -14,4 +14,8 @@ router.get('/all', protect,admin, loanController.getAllLoans);
 
 router.post('/emi', protect, loanController.calculateEMI);
 
+router.get('/customer/:accountId', loanController.getCustomerLoans);
+
+
+
 module.exports = router;

@@ -125,7 +125,7 @@ const Profile = () => {
                             onChange={(e) => setNewEmail(e.target.value)} 
                         />
                     </div>
-                    <button className="btn btn-primary custom-btn" onClick={handleUpdate}>Update Profile</button>
+                    <button className="btn btn-outline-primary custom-btn" onClick={handleUpdate}>Update Profile</button>
                 </div>
             </div>
         </div>

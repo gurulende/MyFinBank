@@ -31,7 +31,7 @@ exports.applyForLoan = async (req, res) => {
 
         await newLoan.save();
 
-        // Calculate EMI for the new loan
+       
         const emi = calculateEMI(amount, effectiveInterestRate, tenure);
 
         res.status(201).json({ loan: newLoan, emi });
@@ -41,7 +41,6 @@ exports.applyForLoan = async (req, res) => {
     }
 };
 
-// Helper function to calculate EMI
 const calculateEMI = (amount, interestRate, tenure) => {
     const principal = parseFloat(amount);
     const annualInterestRate = parseFloat(interestRate) / 100;
@@ -116,6 +115,24 @@ exports.calculateEMI = (req, res) => {
         res.json({ emi });
     } catch (error) {
         console.error('Error calculating EMI:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+exports.getCustomerLoans = async (req, res) => {
+    const accountId = req.params.accountId;
+
+    try {
+        const loans = await Loan.find({ accountId });
+        
+        const loansWithEMI = loans.map(loan => ({
+            ...loan.toObject(),
+            emi: calculateEMI(loan.amount, loan.interestRate, loan.tenure)
+        }));
+
+        res.status(200).json({ loans: loansWithEMI });
+    } catch (error) {
+        console.error('Error fetching customer loans:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };

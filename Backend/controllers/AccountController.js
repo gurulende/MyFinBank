@@ -1,7 +1,6 @@
 const Account = require('../models/account');
 const User = require('../models/user');
-const Transaction = require('../models/transaction'); // Adjust the path as necessary
-
+const Transaction = require('../models/transaction'); 
 
 const generateUniqueAccountNumber = () => {
     const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000);
@@ -9,7 +8,7 @@ const generateUniqueAccountNumber = () => {
 };
 
 
-exports.createAccount = async (req, res) => {///to create a account
+exports.createAccount = async (req, res) => {
     try {
         const { amount, type } = req.body; 
 
@@ -39,14 +38,13 @@ exports.createAccount = async (req, res) => {///to create a account
 
 exports.getAllAccounts = async (req, res) => {
     try {
-        // Fetch all accounts and populate user details
         const accounts = await Account.find()
             .populate({
-                path: 'user', // The field in Account schema that references User
-                select: 'username email phoneNumber' // Fields to be returned from User schema
+                path: 'user', 
+                select: 'username email phoneNumber' 
             });
 
-        // Format the response to include customer details with account details
+        
         const formattedAccounts = accounts.map(account => ({
             accountId: account._id,
             amount: account.amount,
@@ -65,7 +63,7 @@ exports.getAllAccounts = async (req, res) => {
 };
 
 
-exports.getAccountById = async (req, res) => {//to get account by id
+exports.getAccountById = async (req, res) => {
     try {
         const account = await Account.findById(req.params.id);
         if (!account) return res.status(404).json({ message: 'Account not found' });
@@ -122,25 +120,20 @@ exports.getMyAccount = async (req, res) => {
 exports.
 checkAndNotifyZeroBalance = async (req, res) => {
     try {
-        // Fetch all accounts and populate user details
         const accounts = await Account.find().populate('user');
         
-        // Filter accounts with zero balance
         const zeroBalanceAccounts = accounts.filter(account => account.amount === 0);
 
-        // Array to hold email notification details
         const emailDetails = [];
 
         if (zeroBalanceAccounts.length > 0) {
-            // Find the admin user
             const admin = await User.findOne({ role: 'admin' }).select('email');
             
             if (admin) {
                 zeroBalanceAccounts.forEach(account => {
-                    // Collect details for response
                     emailDetails.push({
-                        accountId: account._id, // Include the account ID
-                        username: account.user.username, // Include the username
+                        accountId: account._id,
+                        username: account.user.username, 
                         amount: account.amount
                     });
                 });
@@ -151,7 +144,6 @@ checkAndNotifyZeroBalance = async (req, res) => {
             emailDetails.push({ message: 'No New Mail' });
         }
 
-        // Send response with details
         res.json({ message: `New Mail: ${zeroBalanceAccounts.length} account(s) with zero balance.`, details: emailDetails });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -161,21 +153,20 @@ checkAndNotifyZeroBalance = async (req, res) => {
 
 exports.getAllUsersWithAccounts = async (req, res) => {
     try {
-        // Fetch all users with the role 'customer'
         const users = await User.find({ role: 'customer' }).select('-password');
         
-        // Fetch accounts and associated transactions for each user
+        
         const userAccountsPromises = users.map(async (user) => {
             const account = await Account.findOne({ user: user._id });
             
             if (account) {
-                // Fetch transactions where the account is either sender or receiver
+              
                 const transactions = await Transaction.find({
                     $or: [
                         { senderAccountId: account._id },
                         { receiverAccountId: account._id }
                     ]
-                }).populate('senderAccountId receiverAccountId loanId investmentId'); // Populate references if needed
+                }).populate('senderAccountId receiverAccountId loanId investmentId'); 
 
                 return {
                     user: {
@@ -208,7 +199,7 @@ exports.getAllUsersWithAccounts = async (req, res) => {
             }
         });
 
-        // Resolve all promises
+       
         const userAccounts = await Promise.all(userAccountsPromises);
 
         res.json(userAccounts);

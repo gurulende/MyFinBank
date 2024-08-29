@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import './CustomerChat.css'; // Ensure you create this CSS file
+import './CustomerChat.css'; // Ensure this imports your updated CSS
 
 const CustomerChat = () => {
     const [messages, setMessages] = useState([]);
@@ -9,7 +9,7 @@ const CustomerChat = () => {
     const [error, setError] = useState('');
     const [adminId, setAdminId] = useState('');
     const [userId, setUserId] = useState('');
-    
+
     const token = localStorage.getItem('token');
     const endOfMessagesRef = useRef(null);
 
@@ -102,7 +102,7 @@ const CustomerChat = () => {
 
     return (
         <div className="chat-container">
-            <h2 className="chat-header">Customer Chat</h2>
+            <div className="header">Customer Chat</div>
             {loading && <p className="loading">Loading...</p>}
             {error && <p className="error">{error}</p>}
             <div className="message-container">
@@ -124,7 +124,7 @@ const CustomerChat = () => {
                     onKeyDown={handleKeyPress}
                     placeholder="Type your message..."
                 />
-                <button onClick={handleSendMessage}>Send</button>
+                <button className="send-button" onClick={handleSendMessage}>Send</button>
             </div>
         </div>
     );

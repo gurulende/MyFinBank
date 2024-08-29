@@ -11,6 +11,9 @@ import CustomerChat from '../Chat/CustomerChat';
 import ProtectedRoute from './ProtecteRoute';
 import Home from '../Pages/Home';
 import Profile from '../UsersUpdate/UpdateProfile';
+import LoanStatus from '../Loans/LoanStatus';
+import UserFD from '../Transactions/UserFD';
+import UserRD from '../Transactions/UserRD';
 
 const CustomerRoutes = () => (
     <Routes>
@@ -24,6 +27,9 @@ const CustomerRoutes = () => (
         <Route path="/calculatemi" element={<ProtectedRoute element={<CalculateEMI />} roles={['customer']} />} />
         <Route path="/accountcreation" element={<ProtectedRoute element={<AccountCreation />} roles={['customer']} />} />
         <Route path="/customerchat" element={<ProtectedRoute element={<CustomerChat />} roles={['customer']} />} />
+        <Route path="/loanstatus" element={<ProtectedRoute element={<LoanStatus />} roles={['customer']} />} />
+     <Route path="/userfd" element={<ProtectedRoute element={<UserFD />} roles={['customer']} />} />
+     <Route path="/userrd" element={<ProtectedRoute element={<UserRD />} roles={['customer']} />} />
     </Routes>
 );
 

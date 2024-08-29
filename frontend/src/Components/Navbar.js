@@ -49,6 +49,7 @@ function Navbar() {
                                     <li><Link className="dropdown-item" to="/admin-dashboard">Dashboard</Link></li>
                                     <li><Link className="dropdown-item" to="/adminchat">Chat</Link></li>
                                     <li><Link className="dropdown-item" to="/emailnotification">Email</Link></li>
+                                    <li><Link className="dropdown-item" to="/usertransaction">user transaction</Link></li>
                                 </ul>
                             </li>
                         )}
@@ -72,6 +73,9 @@ function Navbar() {
                                     <li><Link className="dropdown-item" to="/calculatemi">Calculate EMI</Link></li>
                                     <li><Link className="dropdown-item" to="/customerchat">Chat</Link></li>
                                     <li><Link className="dropdown-item" to="/profiles">Update Profile</Link></li>
+                                    <li><Link className="dropdown-item" to="/loanstatus">Loan status</Link></li>
+                                    <li><Link className="dropdown-item" to="/userfd">FD</Link></li>
+                                    <li><Link className="dropdown-item" to="/userrd">RD</Link></li>
                                 </ul>
                             </li>
                         )}

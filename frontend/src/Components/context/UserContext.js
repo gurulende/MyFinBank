@@ -1,12 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios'; // or your preferred method for making API calls
-
+import axios from 'axios'; 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    // Fetch user data based on the token
     const fetchUserData = async (token) => {
         try {
             const response = await axios.get('/api/user/profile', { 

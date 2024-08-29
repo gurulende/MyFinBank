@@ -6,18 +6,17 @@ const RecurringDepositTerms = () => {
   const [tenure, setTenure] = useState('');
   const [maturityValue, setMaturityValue] = useState(null);
 
-  const interestRate = 0.08; // 8% interest rate
+  const interestRate = 0.08;
 
   const calculateMaturityValue = () => {
     const monthlyDeposit = parseFloat(monthlyAmount);
-    const months = parseFloat(tenure) * 12; // Convert years to months
+    const months = parseFloat(tenure) * 12; 
     
     if (isNaN(monthlyDeposit) || isNaN(months) || monthlyDeposit <= 0 || months <= 0) {
       alert('Please enter valid monthly amounts and tenures.');
       return;
     }
     
-    // Future Value of a series formula (Monthly Compounded Interest)
     const rate = interestRate / 12;
     const maturityAmount = monthlyDeposit * ((Math.pow(1 + rate, months) - 1) / rate);
     setMaturityValue(maturityAmount.toFixed(2));

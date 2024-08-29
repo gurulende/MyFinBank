@@ -13,4 +13,7 @@ router.post('/:id/withdraw', protect, checkUserStatus, transactionController.wit
 
 router.post('/transfer', protect, checkUserStatus, transactionController.transfer);
 
+router.get('/user/:userId',protect, transactionController.getUserTransactions);
+
+
 module.exports = router;

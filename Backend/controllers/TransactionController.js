@@ -11,7 +11,7 @@ exports.createTransaction = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
+// controllers/transactionController.js
 exports.getTransactions = async (req, res) => {
     try {
         if (!req.user || !req.user.id) {
@@ -183,5 +183,30 @@ exports.transfer = async (req, res) => {
     } catch (error) {
         console.error('Error processing transfer:', error);
         res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+
+
+
+exports.getUserTransactions = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        // Find all accounts for the given user
+        const accounts = await Account.find({ user: userId });
+        const accountIds = accounts.map(account => account._id);
+
+        // Find all transactions related to these accounts
+        const transactions = await Transaction.find({
+            $or: [
+                { senderAccountId: { $in: accountIds } },
+                { receiverAccountId: { $in: accountIds } }
+            ]
+        }).populate('senderAccountId receiverAccountId loanId investmentId');
+
+        res.json(transactions);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };

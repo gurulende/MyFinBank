@@ -1,23 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Card, ListGroup, Spinner, Alert } from 'react-bootstrap';
 
-const TransactionsList = () => {
+const TransactionList = ({ userId }) => {
     const [transactions, setTransactions] = useState([]);
-    const [fetchError, setFetchError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
+        if (!userId) return; 
+
         const fetchTransactions = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:5000/api/transactions', {
+                const { data } = await axios.get(`http://localhost:5000/api/transactions/user/${userId}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                        'Authorization': `Bearer ${token}`
+                    }
                 });
-                setTransactions(response.data);
+
+          
+                console.log('Fetched transactions:', data);
+
+                if (Array.isArray(data)) {
+                    setTransactions(data);
+                } else {
+                    throw new Error('Expected an array of transactions');
+                }
             } catch (err) {
-                setFetchError(err.response?.data?.message || 'Failed to fetch transactions');
+                setError('Failed to fetch transactions');
                 console.error('Error fetching transactions', err);
             } finally {
                 setLoading(false);
@@ -25,51 +36,33 @@ const TransactionsList = () => {
         };
 
         fetchTransactions();
-    }, []);
+    }, [userId]);
 
-    if (loading) return <p>Loading transactions...</p>;
+    if (!userId) return null; 
+
+    if (loading) return <Spinner animation="border" variant="primary" />;
+    if (error) return <Alert variant="danger">{error}</Alert>;
 
     return (
-        <div className="container mt-5">
-            <h2 className="mb-4">All Transactions</h2>
-            {fetchError && <div className="alert alert-danger">{fetchError}</div>}
-            {transactions.length === 0 ? (
-                <p>No transactions found.</p>
-            ) : (
-                <div className="table-responsive">
-                    <table className="table table-striped table-bordered">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th>Transaction ID</th>
-                                <th>Amount</th>
-                                <th>Type</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {transactions.map((transaction) => {
-                                // Determine transaction type
-                                const type = transaction.senderAccountId && transaction.receiverAccountId
-                                    ? 'Transfer'
-                                    : transaction.senderAccountId
-                                        ? 'Withdrawal'
-                                        : 'Deposit';
-                                
-                                return (
-                                    <tr key={transaction._id}>
-                                        <td>{transaction._id}</td>
-                                        <td>${transaction.amount.toFixed(2)}</td>
-                                        <td>{type}</td>
-                                        <td>{new Date(transaction.createdAt).toLocaleDateString()}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-            )}
-        </div>
+        <Card className="mt-3">
+            <Card.Header>Transactions</Card.Header>
+            <ListGroup variant="flush">
+                {transactions.length === 0 ? (
+                    <ListGroup.Item>No transactions found.</ListGroup.Item>
+                ) : (
+                    transactions.map(transaction => (
+                        <ListGroup.Item key={transaction._id}>
+                            <p><strong>Type:</strong> {transaction.type || 'N/A'}</p>
+                            <p><strong>Amount:</strong> ${transaction.amount?.toFixed(2) || 'N/A'}</p>
+                            <p><strong>Sender Account:</strong> {transaction.senderAccountId?.accountId || 'N/A'}</p>
+                            <p><strong>Receiver Account:</strong> {transaction.receiverAccountId?.accountId || 'N/A'}</p>
+                            <p><strong>Date:</strong> {transaction.createdAt ? new Date(transaction.createdAt).toLocaleString() : 'N/A'}</p>
+                        </ListGroup.Item>
+                    ))
+                )}
+            </ListGroup>
+        </Card>
     );
 };
 
-export default TransactionsList;
+export default TransactionList;

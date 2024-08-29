@@ -17,7 +17,7 @@ const transactionSchema = new mongoose.Schema({
         type: Date, 
         default: Date.now 
     },
-    loanId : {
+    loanId: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Loan',
     },
@@ -28,4 +28,4 @@ const transactionSchema = new mongoose.Schema({
 });
 
 const Transaction = mongoose.model('Transaction', transactionSchema);
-module.exports= Transaction;
+module.exports = Transaction;

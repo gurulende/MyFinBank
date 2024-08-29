@@ -10,6 +10,7 @@ import ProtectedRoute from './ProtecteRoute';
 import Home from '../Pages/Home';
 import EmailNotification from '../Email/EmailNotification';
 import UserAccountsList from '../Accounts/UserAccountsList';
+import UserTransacion from '../Accounts/UsersTransaction';
 
 const AdminRoutes = () => (
     <Routes>
@@ -22,7 +23,8 @@ const AdminRoutes = () => (
         <Route path="/adminchat" element={<ProtectedRoute element={<AdminChat />} roles={['admin']} />} />
         <Route path="/emailnotification" element={<ProtectedRoute element={<EmailNotification />} roles={['admin']} />} />
      <Route path="/ UserAccountsList" element={<ProtectedRoute element={< UserAccountsList />} roles={['admin']} />} />
-     </Routes>
+      <Route path="/usertransaction" element={<ProtectedRoute element={< UserTransacion />} roles={['admin']} />} />
+      </Routes>
    
 );
 

@@ -13,7 +13,7 @@ const EmailNotification = () => {
         setError('');
 
         try {
-            const token = localStorage.getItem('token'); // Retrieve token from local storage
+            const token = localStorage.getItem('token'); 
             const { data } = await axios.get('http://localhost:5000/api/accounts/check-zero-balance/email', {
                 headers: {
                     'Authorization': `Bearer ${token}`

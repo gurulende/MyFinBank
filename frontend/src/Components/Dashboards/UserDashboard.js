@@ -3,7 +3,7 @@ import Deposit from '../Transactions/Deposit';
 import Withdraw from '../Transactions/Withdrawl';
 import TransferMoney from '../Transactions/TransferMoney';
 import AccountCreation from '../Accounts/AccountCreation';
-import TransactionsList from '../Transactions/TransactionList';
+import TransactionsList from '../Transactions/Transaction';
 import FixedDepositForm from '../Investments/FixedDepositForm';
 import RecurringDepositForm from '../Investments/RecurringDepositForm';
 

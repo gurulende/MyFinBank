@@ -60,10 +60,25 @@ exports.createRD = async (req, res) => {
     }
 };
 
+
 exports.getRDsByAccount = async (req, res) => {
     try {
         const { accountId } = req.params;
+        const userId = req.user._id; // Extracted from the `protect` middleware
 
+        // Find the account and ensure it belongs to the logged-in user
+        const account = await Account.findById(accountId);
+
+        if (!account) {
+            return res.status(404).json({ message: 'Account not found' });
+        }
+
+        // Check if the account belongs to the logged-in user
+        if (account.user.toString() !== userId.toString()) {
+            return res.status(403).json({ message: 'Unauthorized to view this account\'s Recurring Deposits' });
+        }
+
+        // Fetch Recurring Deposits associated with the account
         const recurringDeposits = await RecurringDeposit.find({ accountId });
 
         if (recurringDeposits.length === 0) {
@@ -72,9 +87,12 @@ exports.getRDsByAccount = async (req, res) => {
 
         res.status(200).json(recurringDeposits);
     } catch (error) {
+        console.error('Error fetching Recurring Deposits:', error);
         res.status(500).json({ message: error.message });
     }
 };
+
+
 
 exports.updateRD = async (req, res) => {
     try {
@@ -96,6 +114,8 @@ exports.updateRD = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
 
 exports.deleteRD = async (req, res) => {
     try {

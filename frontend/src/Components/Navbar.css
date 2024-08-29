@@ -1,80 +1,70 @@
-/* Navbar.css */
 
-/* General Navbar Styles */
 .navbar {
-  padding: 0.5rem 1rem; /* Adjust padding to fit your design */
-  margin-bottom: 0; /* Ensure the navbar is flush with the top of the page */
+  padding: 0.5rem 1rem;
+  margin-bottom: 0; 
 }
 
-/* Navbar Nav Items */
 .navbar-nav {
-  flex-direction: row !important; /* Ensure links are in a row */
+  flex-direction: row !important; 
 }
 
 .nav-item {
-  margin: 0 0.5rem; /* Add margin between items */
+  margin: 0 0.5rem;
 }
 
-/* Navbar Links */
 .nav-link {
-  padding: 0.5rem 1rem; /* Adjust padding for links */
+  padding: 0.5rem 1rem; 
 }
 
-/* Navbar Toggler */
 .navbar-toggler {
-  border: none; /* Remove border for the toggler */
+  border: none; 
 }
 
-/* Auth Links Container */
 .auth-links {
-  display: flex; /* Use flexbox for alignment */
-  gap: 10px; /* Space between buttons */
+  display: flex;
+  gap: 10px; 
 }
 
-/* Styling for Auth Buttons */
 .auth-buttons .nav-link {
-  margin-right: 0; /* Ensure there's no extra margin */
+  margin-right: 0; 
 }
 
-/* Optional: Customize the appearance of the buttons */
 .btn-outline-light {
-  border: 1px solid #fff; /* White border for outline buttons */
-  color: #ffffff; /* White text color */
-  padding: 0.5rem 1rem; /* Add padding to buttons */
+  border: 1px solid #fff; 
+  color: #ffffff; 
+  padding: 0.5rem 1rem; 
 }
 
 .btn-outline-light:hover {
-  background-color: rgba(255, 255, 255, 0.278); /* Light background on hover */
+  background-color: rgba(255, 255, 255, 0.278); 
 }
 
-/* Responsive Navbar Adjustments */
 @media (max-width: 991px) {
   .navbar-nav {
-    flex-direction: column; /* Stack items vertically on small screens */
+    flex-direction: column; 
   }
 }
 
 
-/* Styling for the profile icon */
+/
 .profile-icon {
-  fill: #ffffff; /* White color for the icon */
-  margin-left: 15px; /* Space between icon and other items */
+  fill: #ffffff; 
+  margin-left: 15px; 
 }
 
 .profile-icon:hover {
-  fill: #adb5bd; /* Light Gray on hover */
+  fill: #adb5bd;
 }
 
-/* Align profile icon to the end of the navbar */
 .navbar-nav {
-  margin-right: auto; /* Push other items to the left */
+  margin-right: auto; 
 }
 
 .navbar-collapse {
   display: flex;
-  justify-content: space-between; /* Ensure items are spaced out */
+  justify-content: space-between; 
 }
 
 .navbar-nav.auth-links {
-  margin-left: auto; /* Align auth links and profile icon to the right */
+  margin-left: auto; 
 }

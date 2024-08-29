@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useAuth } from '../context/authContext'; // Import the useAuth hook
+import { useAuth } from '../context/authContext'; 
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { login } = useAuth(); // Use the login function from AuthContext
+    const { login } = useAuth(); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,8 +17,8 @@ const Login = () => {
             const response = await axios.post('http://localhost:5000/api/users/login', { username, password });
             const token = response.data.token;
             localStorage.setItem('token', token);
-            login(token); // Update AuthContext state
-            navigate('/'); // Redirect to home or another page after login
+            login(token); 
+            navigate('/'); 
         } catch (error) {
             setError('Login failed. Please check your credentials.');
             console.error('Login failed', error);

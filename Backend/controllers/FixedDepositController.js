@@ -58,11 +58,24 @@ exports.createFD = async (req, res) => {
 
 
 
-
 exports.getFDsByAccount = async (req, res) => {
     try {
         const { accountId } = req.params;
+        const userId = req.user._id; // Extracted from the `protect` middleware
 
+        // Find the account and ensure it belongs to the logged-in user
+        const account = await Account.findById(accountId);
+
+        if (!account) {
+            return res.status(404).json({ message: 'Account not found' });
+        }
+
+        // Check if the account belongs to the logged-in user
+        if (account.user.toString() !== userId.toString()) {
+            return res.status(403).json({ message: 'Unauthorized to view this account\'s Fixed Deposits' });
+        }
+
+        // Fetch Fixed Deposits associated with the account
         const fixedDeposits = await FixedDeposit.find({ accountId });
 
         if (fixedDeposits.length === 0) {
@@ -74,6 +87,8 @@ exports.getFDsByAccount = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
 
 exports.updateFD = async (req, res) => {
     try {

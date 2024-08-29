@@ -3,15 +3,15 @@ import AllAccounts from '../Accounts/AllAccount';
 import ManageLoans from '../Loans/ManageLoans';
 import ViewAccount from '../Accounts/ViewAccount';
 import EditAccount from '../Accounts/EditAccount';
-import UserAccountsList from '../Accounts/UserAccountsList'; // Import the UserAccountsList component
+import UserAccountsList from '../Accounts/UserAccountsList'; 
 
 const AdminDashboard = () => {
-    const [currentView, setCurrentView] = useState('userAccountsList'); // Default to 'userAccountsList'
+    const [currentView, setCurrentView] = useState('userAccountsList'); 
     const [loading, setLoading] = useState(false);
 
     const handleViewChange = (view) => {
         setLoading(true);
-        setTimeout(() => { // Simulate loading delay
+        setTimeout(() => { 
             setCurrentView(view);
             setLoading(false);
         }, 500);
@@ -27,7 +27,7 @@ const AdminDashboard = () => {
                 return <ViewAccount />;
             case 'editAccount':
                 return <EditAccount />;
-            case 'userAccountsList': // Ensure this matches the view name
+            case 'userAccountsList':
                 return <UserAccountsList />;
             default:
                 return <UserAccountsList />;
@@ -36,8 +36,8 @@ const AdminDashboard = () => {
 
     const formatTitle = (view) => {
         return view
-            .replace(/([A-Z])/g, ' $1') // Add space before uppercase letters
-            .toUpperCase(); // Convert to uppercase
+            .replace(/([A-Z])/g, ' $1') 
+            .toUpperCase(); 
     };
 
     return (

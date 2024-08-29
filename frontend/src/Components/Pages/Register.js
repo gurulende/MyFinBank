@@ -12,7 +12,6 @@ const Register = () => {
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
-        // Phone number validation
         if (e.target.name === 'phoneNumber') {
             const phonePattern = /^\d{10}$/; 
             if (!phonePattern.test(e.target.value)) {
@@ -22,7 +21,6 @@ const Register = () => {
             }
         }
 
-        // Email validation
         if (e.target.name === 'email') {
             const emailPattern = /\S+@\S+\.\S+/;
             if (!emailPattern.test(e.target.value)) {

@@ -8,7 +8,6 @@ const LoanManagement = () => {
     const [updating, setUpdating] = useState(false);
     const token = localStorage.getItem('token');
 
-    // Fetch loans from backend
     useEffect(() => {
         const fetchLoans = async () => {
             setLoading(true);
@@ -29,10 +28,10 @@ const LoanManagement = () => {
         fetchLoans();
     }, [token]);
 
-    // Handle loan status update
+    
     const handleStatusUpdate = async (loanId, newStatus) => {
         setUpdating(true);
-        setError(null);  // Reset error message before updating
+        setError(null); 
         try {
             const response = await axios.put(
                 `http://localhost:5000/api/loans/update/${loanId}`,
@@ -44,10 +43,10 @@ const LoanManagement = () => {
                 }
             );
     
-            // Update loan status locally
+           
             setLoans(loans.map(loan => loan._id === loanId ? { ...loan, status: newStatus } : loan));
         } catch (err) {
-            // Display error message if approval fails due to insufficient balance
+           
             if (err.response && err.response.data && err.response.data.message) {
                 setError(err.response.data.message); 
             } else {
@@ -58,7 +57,6 @@ const LoanManagement = () => {
         }
     };
     
-    // Render Loading/Error states
     if (loading) return <div>Loading...</div>;
     if (error) return <div className="alert alert-danger">{error}</div>;
 

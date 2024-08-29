@@ -11,7 +11,7 @@ const checkUserStatus = require('../middleware/checkUserStatus');
 router.post('/create',protect,checkUserStatus, RecurringDepositController.createRD);
 
 // Get all Recurring Deposits for an account
-router.get('/account/:accountId', RecurringDepositController.getRDsByAccount);
+router.get('/rds/:accountId', protect,RecurringDepositController.getRDsByAccount);
 
 // Update Recurring Deposit status (e.g., mark as matured)
 router.put('/update/:id', RecurringDepositController.updateRD);

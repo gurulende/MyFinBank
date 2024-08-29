@@ -9,7 +9,7 @@ const checkUserStatus = require('../middleware/checkUserStatus');
 router.post('/create',protect,checkUserStatus, fixedDepositController.createFD);
 
 // Get all Fixed Deposits for an account
-router.get('/account/:accountId', fixedDepositController.getFDsByAccount);
+router.get('/fds/:accountId',protect, fixedDepositController.getFDsByAccount);
 
 // Update Fixed Deposit status (e.g., mark as matured)
 router.put('/update/:id', fixedDepositController.updateFD);
