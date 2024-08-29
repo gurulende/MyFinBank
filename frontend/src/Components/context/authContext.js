@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [auth, setAuth] = useState({ token: null, role: null, username: null });
+    const [auth, setAuth] = useState({ token: null, role: null, username: null, isAuthenticated: false });
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 const userRole = payload.role;
                 const username = payload.username;
-                setAuth({ token, role: userRole, username });
+                setAuth({ token, role: userRole, username, isAuthenticated: true });
             } catch (error) {
                 console.error('Invalid token', error);
                 localStorage.removeItem('token');
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
             const payload = JSON.parse(atob(token.split('.')[1]));
             const userRole = payload.role;
             const username = payload.username;
-            setAuth({ token, role: userRole, username });
+            setAuth({ token, role: userRole, username, isAuthenticated: true });
             localStorage.setItem('token', token);
         } catch (error) {
             console.error('Invalid token', error);
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = () => {
-        setAuth({ token: null, role: null, username: null });
+        setAuth({ token: null, role: null, username: null, isAuthenticated: false });
         localStorage.removeItem('token');
     };
 

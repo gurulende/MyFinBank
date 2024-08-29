@@ -1,70 +1,25 @@
+.navbar-brand {
+  font-size: 1.5rem;
+}
 
-.navbar {
+.navbar-nav .nav-link {
+  color: #fff;
   padding: 0.5rem 1rem;
-  margin-bottom: 0; 
 }
 
-.navbar-nav {
-  flex-direction: row !important; 
+.navbar-nav .nav-link.active {
+  background-color: #007bff;
+  color: #fff;
 }
 
-.nav-item {
-  margin: 0 0.5rem;
+.dropdown-menu {
+  min-width: 150px;
 }
 
-.nav-link {
-  padding: 0.5rem 1rem; 
+.dropdown-menu .dropdown-item {
+  font-size: 0.9rem;
 }
 
-.navbar-toggler {
-  border: none; 
-}
-
-.auth-links {
-  display: flex;
-  gap: 10px; 
-}
-
-.auth-buttons .nav-link {
-  margin-right: 0; 
-}
-
-.btn-outline-light {
-  border: 1px solid #fff; 
-  color: #ffffff; 
-  padding: 0.5rem 1rem; 
-}
-
-.btn-outline-light:hover {
-  background-color: rgba(255, 255, 255, 0.278); 
-}
-
-@media (max-width: 991px) {
-  .navbar-nav {
-    flex-direction: column; 
-  }
-}
-
-
-/
-.profile-icon {
-  fill: #ffffff; 
-  margin-left: 15px; 
-}
-
-.profile-icon:hover {
-  fill: #adb5bd;
-}
-
-.navbar-nav {
-  margin-right: auto; 
-}
-
-.navbar-collapse {
-  display: flex;
-  justify-content: space-between; 
-}
-
-.navbar-nav.auth-links {
-  margin-left: auto; 
+.btn-outline-success, .btn-outline-danger {
+  margin-left: 10px;
 }

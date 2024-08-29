@@ -13,7 +13,7 @@ exports.createFD = async (req, res) => {
         // Fixed interest rate
         const interestRate = 7;
 
-        // Find the account and populate the user field to check the user's status
+       
         const account = await Account.findById(accountId).populate('user');
 
         if (!account) {
@@ -123,6 +123,51 @@ exports.deleteFD = async (req, res) => {
 
         res.status(200).json({ message: 'Fixed Deposit deleted successfully' });
     } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+exports.getAllFDsWithDetails = async (req, res) => {
+    try {
+        // Fetch all Fixed Deposits
+        const fixedDeposits = await FixedDeposit.find()
+            .populate({
+                path: 'accountId',
+                populate: {
+                    path: 'user',
+                    select: 'username', // Select only the username field
+                },
+            });
+
+        // Check if fixedDeposits is empty
+        if (fixedDeposits.length === 0) {
+            return res.status(404).json({ message: 'No Fixed Deposits found' });
+        }
+
+        // Transform data to include username and accountId
+        const fdWithDetails = fixedDeposits.map(fd => {
+            if (!fd.accountId) {
+                console.log(`Fixed Deposit ${fd._id} has no associated Account`);
+                return null;
+            }
+
+            const accountId = fd.accountId._id;
+            const username = fd.accountId.user ? fd.accountId.user.username : 'Unknown';
+
+            return {
+                id: fd._id,
+                amount: fd.amount,
+                term: fd.term,
+                interestRate: fd.interestRate,
+                startDate: fd.startDate,
+                endDate: fd.endDate,
+                accountId,
+                username,
+            };
+        }).filter(fd => fd !== null); // Filter out null entries
+
+        res.status(200).json(fdWithDetails);
+    } catch (error) {
+        console.error('Error fetching Fixed Deposits with details:', error);
         res.status(500).json({ message: error.message });
     }
 };

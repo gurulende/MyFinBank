@@ -54,8 +54,8 @@ const TransactionList = ({ userId }) => {
                         <ListGroup.Item key={transaction._id}>
                             <p><strong>Type:</strong> {transaction.type || 'N/A'}</p>
                             <p><strong>Amount:</strong> ${transaction.amount?.toFixed(2) || 'N/A'}</p>
-                            <p><strong>Sender Account:</strong> {transaction.senderAccountId?.accountId || 'N/A'}</p>
-                            <p><strong>Receiver Account:</strong> {transaction.receiverAccountId?.accountId || 'N/A'}</p>
+                            <p><strong>Sender Account:</strong> {transaction.senderAccountId?.account._id || 'N/A'}</p>
+                            <p><strong>Receiver Account:</strong> {transaction.receiverAccountId?.account._id || 'N/A'}</p>
                             <p><strong>Date:</strong> {transaction.createdAt ? new Date(transaction.createdAt).toLocaleString() : 'N/A'}</p>
                         </ListGroup.Item>
                     ))

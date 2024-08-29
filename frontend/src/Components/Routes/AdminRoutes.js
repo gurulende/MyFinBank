@@ -11,6 +11,8 @@ import Home from '../Pages/Home';
 import EmailNotification from '../Email/EmailNotification';
 import UserAccountsList from '../Accounts/UserAccountsList';
 import UserTransacion from '../Accounts/UsersTransaction';
+import AllFDs from '../Investments/GetAllFd';
+import AllRDs from '../Investments/GetAllRd';
 
 const AdminRoutes = () => (
     <Routes>
@@ -24,6 +26,8 @@ const AdminRoutes = () => (
         <Route path="/emailnotification" element={<ProtectedRoute element={<EmailNotification />} roles={['admin']} />} />
      <Route path="/ UserAccountsList" element={<ProtectedRoute element={< UserAccountsList />} roles={['admin']} />} />
       <Route path="/usertransaction" element={<ProtectedRoute element={< UserTransacion />} roles={['admin']} />} />
+      <Route path="/allfds" element={<ProtectedRoute element={< AllFDs />} roles={['admin']} />} />
+      <Route path="/allrds" element={<ProtectedRoute element={< AllRDs />} roles={['admin']} />} />
       </Routes>
    
 );

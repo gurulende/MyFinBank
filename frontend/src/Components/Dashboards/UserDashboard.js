@@ -14,7 +14,7 @@ const UserDashboard = () => {
 
     const handleViewChange = (view) => {
         setLoading(true);
-        setTimeout(() => { // Simulate loading delay
+        setTimeout(() => { 
             setCurrentView(view);
             setLoading(false);
         }, 500);
@@ -48,62 +48,16 @@ const UserDashboard = () => {
                     <div className="sidebar-sticky">
                         <h4 className="text-center mb-4">Dashboard</h4>
                         <ul className="nav flex-column">
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'deposit' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('deposit')}
-                                >
-                                    Deposit
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'withdraw' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('withdraw')}
-                                >
-                                    Withdraw
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'transfermoney' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('transfermoney')}
-                                >
-                                    Transfer Money
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'createAccount' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('createAccount')}
-                                >
-                                    Create Account
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'transactions' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('transactions')}
-                                >
-                                    Transactions
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'fixedDeposit' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('fixedDeposit')}
-                                >
-                                    Fixed Deposit
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'recurringDeposit' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('recurringDeposit')}
-                                >
-                                    Recurring Deposit
-                                </button>
-                            </li>
+                            {['deposit', 'withdraw', 'transfermoney', 'createAccount', 'transactions', 'fixedDeposit', 'recurringDeposit'].map(view => (
+                                <li className="nav-item" key={view}>
+                                    <button 
+                                        className={`nav-link ${currentView === view ? 'active' : ''}`} 
+                                        onClick={() => handleViewChange(view)}
+                                    >
+                                        {view.charAt(0).toUpperCase() + view.slice(1).replace(/([A-Z])/g, ' $1')}
+                                    </button>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </nav>
@@ -114,7 +68,7 @@ const UserDashboard = () => {
                     {loading ? (
                         <div className="text-center">
                             <div className="spinner-border" role="status">
-                                <span className="sr-only">Loading...</span>
+                                <span className="visually-hidden">Loading...</span>
                             </div>
                         </div>
                     ) : (

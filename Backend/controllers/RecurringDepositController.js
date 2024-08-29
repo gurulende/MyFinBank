@@ -132,3 +132,50 @@ exports.deleteRD = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+exports.getAllRDsWithDetails = async (req, res) => {
+    try {
+        // Fetch all Recurring Deposits
+        const recurringDeposits = await RecurringDeposit.find()
+            .populate({
+                path: 'accountId',
+                populate: {
+                    path: 'user',
+                    select: 'username', // Select only the username field
+                },
+            });
+
+        // Check if recurringDeposits is empty
+        if (recurringDeposits.length === 0) {
+            return res.status(404).json({ message: 'No Recurring Deposits found' });
+        }
+
+        // Transform data to include username and accountId
+        const rdWithDetails = recurringDeposits.map(rd => {
+            if (!rd.accountId) {
+                console.log(`Recurring Deposit ${rd._id} has no associated Account`);
+                return null;
+            }
+
+            const accountId = rd.accountId._id;
+            const username = rd.accountId.user ? rd.accountId.user.username : 'Unknown';
+
+            return {
+                id: rd._id,
+                monthlyAmount: rd.monthlyAmount,
+                term: rd.term,
+                interestRate: rd.interestRate,
+                startDate: rd.startDate,
+                endDate: rd.endDate,
+                accountId,
+                username,
+            };
+        }).filter(rd => rd !== null); // Filter out null entries
+
+        res.status(200).json(rdWithDetails);
+    } catch (error) {
+        console.error('Error fetching Recurring Deposits with details:', error);
+        res.status(500).json({ message: error.message });
+    }
+};

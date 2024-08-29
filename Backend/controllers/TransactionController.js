@@ -188,13 +188,12 @@ exports.transfer = async (req, res) => {
 
 
 
-
 exports.getUserTransactions = async (req, res) => {
     const { userId } = req.params;
 
     try {
         // Find all accounts for the given user
-        const accounts = await Account.find({ user: userId });
+        const accounts = await Account.find({ user: userId }).select('accountId'); // Make sure to include accountId
         const accountIds = accounts.map(account => account._id);
 
         // Find all transactions related to these accounts
@@ -203,7 +202,8 @@ exports.getUserTransactions = async (req, res) => {
                 { senderAccountId: { $in: accountIds } },
                 { receiverAccountId: { $in: accountIds } }
             ]
-        }).populate('senderAccountId receiverAccountId loanId investmentId');
+        })
+        .populate('senderAccountId receiverAccountId loanId investmentId'); // Ensure these fields are populated correctly
 
         res.json(transactions);
     } catch (error) {

@@ -85,7 +85,7 @@ const UserTransacion = () => {
                                     <Card.Body>
                                         <Card.Title>{user.username}</Card.Title>
                                         <Card.Subtitle className="mb-2 text-muted">
-                                            <strong>Account Number:</strong> {account?.accountId || 'N/A'}
+                                            <strong>Account Number:</strong> {account?.accountNumber || 'N/A'}
                                         </Card.Subtitle>
                                         <Card.Text>
                                             <strong>Amount:</strong> ${account?.amount?.toFixed(2) || 'N/A'}
@@ -116,8 +116,8 @@ const UserTransacion = () => {
                                         transactions.map(transaction => (
                                             <ListGroup.Item key={transaction._id}>
                                                 <p><strong>Amount:</strong> ${transaction.amount?.toFixed(2) || 'N/A'}</p>
-                                                <p><strong>Sender Account:</strong> {transaction.senderAccountId?.accountId || 'N/A'}</p>
-                                                <p><strong>Receiver Account:</strong> {transaction.receiverAccountId?.accountNumber || 'N/A'}</p>
+                                                <p><strong>Sender Account Number:</strong> {transaction.senderAccountId?._id || 'N/A'}</p>
+                                                <p><strong>Receiver Account Number:</strong> {transaction.receiverAccountId?._id || 'N/A'}</p>
                                                 <p><strong>Date:</strong> {transaction.createdAt ? new Date(transaction.createdAt).toLocaleString() : 'N/A'}</p>
                                             </ListGroup.Item>
                                         ))

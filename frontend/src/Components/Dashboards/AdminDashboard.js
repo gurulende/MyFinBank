@@ -4,6 +4,8 @@ import ManageLoans from '../Loans/ManageLoans';
 import ViewAccount from '../Accounts/ViewAccount';
 import EditAccount from '../Accounts/EditAccount';
 import UserAccountsList from '../Accounts/UserAccountsList'; 
+import AllFDs from '../Investments/GetAllFd'; // Import AllFDs component
+import AllRDs from '../Investments/GetAllRd'; // Import AllRDs component
 
 const AdminDashboard = () => {
     const [currentView, setCurrentView] = useState('userAccountsList'); 
@@ -29,15 +31,26 @@ const AdminDashboard = () => {
                 return <EditAccount />;
             case 'userAccountsList':
                 return <UserAccountsList />;
+            case 'allfds':
+                return <AllFDs />; // Render AllFDs component
+            case 'allrds':
+                return <AllRDs />; // Render AllRDs component
             default:
                 return <UserAccountsList />;
         }
     };
 
     const formatTitle = (view) => {
-        return view
-            .replace(/([A-Z])/g, ' $1') 
-            .toUpperCase(); 
+        switch (view) {
+            case 'allfds':
+                return 'ALL FIXED DEPOSITS';
+            case 'allrds':
+                return 'ALL RECURRING DEPOSITS';
+            default:
+                return view
+                    .replace(/([A-Z])/g, ' $1') 
+                    .toUpperCase(); 
+        }
     };
 
     return (
@@ -47,31 +60,18 @@ const AdminDashboard = () => {
                     <div className="sidebar-sticky">
                         <h4 className="text-center mb-4">Admin Dashboard</h4>
                         <ul className="nav flex-column">
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'userAccountsList' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('userAccountsList')}
-                                >
-                                    Manage Users
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'allaccounts' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('allaccounts')}
-                                >
-                                    All Accounts
-                                </button>
-                            </li>
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'manageloans' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('manageloans')}
-                                >
-                                    Manage Loans
-                                </button>
-                            </li>
-                          
+                            {['userAccountsList', 'allaccounts', 'manageloans', 'allfds', 'allrds'].map(view => (
+                                <li className="nav-item" key={view}>
+                                    <button 
+                                        className={`nav-link ${currentView === view ? 'active' : ''}`} 
+                                        onClick={() => handleViewChange(view)}
+                                    >
+                                        {view === 'allfds' ? 'All Fixed Deposits' :
+                                         view === 'allrds' ? 'All Recurring Deposits' :
+                                         view.charAt(0).toUpperCase() + view.slice(1).replace(/([A-Z])/g, ' ')}
+                                    </button>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </nav>

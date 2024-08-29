@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from './context/authContext';
-import './Navbar.css'; // Ensure this CSS file is correctly linked
+import './Navbar.css'; 
 
 function Navbar() {
     const { auth, logout } = useAuth();
 
     const handleProfileClick = () => {
-        // Redirect to customer profile or dashboard
-        window.location.href = '/accountdetails'; // or adjust path accordingly
+        window.location.href = '/accountdetails';
     };
 
     return (
@@ -49,7 +48,7 @@ function Navbar() {
                                     <li><Link className="dropdown-item" to="/admin-dashboard">Dashboard</Link></li>
                                     <li><Link className="dropdown-item" to="/adminchat">Chat</Link></li>
                                     <li><Link className="dropdown-item" to="/emailnotification">Email</Link></li>
-                                    <li><Link className="dropdown-item" to="/usertransaction">user transaction</Link></li>
+                                    <li><Link className="dropdown-item" to="/usertransaction">User Transaction</Link></li>
                                 </ul>
                             </li>
                         )}
@@ -73,48 +72,24 @@ function Navbar() {
                                     <li><Link className="dropdown-item" to="/calculatemi">Calculate EMI</Link></li>
                                     <li><Link className="dropdown-item" to="/customerchat">Chat</Link></li>
                                     <li><Link className="dropdown-item" to="/profiles">Update Profile</Link></li>
-                                    <li><Link className="dropdown-item" to="/loanstatus">Loan status</Link></li>
-                                    <li><Link className="dropdown-item" to="/userfd">FD</Link></li>
-                                    <li><Link className="dropdown-item" to="/userrd">RD</Link></li>
+                                    <li><Link className="dropdown-item" to="/loanstatus">Loan Status</Link></li>
+                                    <li><Link className="dropdown-item" to="/transactionhistory">Transaction History</Link></li>
                                 </ul>
                             </li>
                         )}
-
-                        {/* Auth Links */}
-                        <li className="nav-item auth-links">
-                            {auth.token ? (
-                                <button 
-                                    className="nav-link btn btn-link text-light" 
-                                    onClick={logout}
-                                >
-                                    Logout
-                                </button>
-                            ) : (
-                                <div className="auth-buttons">
-                                    <Link className="nav-link btn btn-outline-light" to="/register">Register</Link>
-                                    <Link className="nav-link btn btn-outline-light" to="/login">Login</Link>
-                                </div>
-                            )}
-                        </li>
                     </ul>
-                    {/* Profile Icon - Only for customers */}
-                    {auth.token && auth.role === 'customer' && (
-                        <div className="d-flex align-items-center">
-                            <svg 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                width="24" 
-                                height="24" 
-                                fill="currentColor" 
-                                className="bi bi-person-circle profile-icon" 
-                                viewBox="0 0 16 16" 
-                                onClick={handleProfileClick}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                                <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                            </svg>
-                        </div>
-                    )}
+                    <div className="d-flex">
+                        {auth.isAuthenticated ? (
+                            <>
+                                {auth.role === 'customer' && (
+                                    <button className="btn btn-outline-success me-2" onClick={handleProfileClick}>Profile</button>
+                                )}
+                                <button className="btn btn-outline-danger" onClick={logout}>Logout</button>
+                            </>
+                        ) : (
+                            <Link className="btn btn-outline-primary" to="/login">Login</Link>
+                        )}
+                    </div>
                 </div>
             </div>
         </nav>
