@@ -8,6 +8,7 @@ import Logout from '../Pages/Logout';
 import FixedDepositTerms from '../Investments/FixedDepositTerms';
 import RecurringDepositTerms from '../Investments/RecurringDepositTerms';
 import ContactUs from '../Pages/ContactUs';
+import CalculateEMI from '../Loans/CalculateEmi';
 
 const PublicRoutes = () => (
     <Routes>
@@ -19,6 +20,8 @@ const PublicRoutes = () => (
         <Route path="/fixeddepositterms" element={<FixedDepositTerms />} />
         <Route path="/recurringdepositterms" element={<RecurringDepositTerms />} />
         <Route path="/contactus" element={<ContactUs/>} />
+        <Route path="/calculatemi" element={<CalculateEMI />} />
+
 
 
 

@@ -53,3 +53,28 @@
     flex-direction: column; /* Stack items vertically on small screens */
   }
 }
+
+
+/* Styling for the profile icon */
+.profile-icon {
+  fill: #ffffff; /* White color for the icon */
+  margin-left: 15px; /* Space between icon and other items */
+}
+
+.profile-icon:hover {
+  fill: #adb5bd; /* Light Gray on hover */
+}
+
+/* Align profile icon to the end of the navbar */
+.navbar-nav {
+  margin-right: auto; /* Push other items to the left */
+}
+
+.navbar-collapse {
+  display: flex;
+  justify-content: space-between; /* Ensure items are spaced out */
+}
+
+.navbar-nav.auth-links {
+  margin-left: auto; /* Align auth links and profile icon to the right */
+}

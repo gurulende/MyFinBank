@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AdminDashboard from '../Dashboards/AdminDashboard';
-import Users from '../UsersUpdate/AllUsers';
 import AllAccounts from '../Accounts/AllAccount';
 import ManageLoans from '../Loans/ManageLoans';
 import ViewAccount from '../Accounts/ViewAccount';
@@ -16,7 +15,6 @@ const AdminRoutes = () => (
     <Routes>
          <Route path="/" element={<Home />} />
         <Route path="/admin-dashboard" element={<ProtectedRoute element={<AdminDashboard />} roles={['admin']} />} />
-        <Route path="/users" element={<ProtectedRoute element={<Users />} roles={['admin']} />} />
         <Route path="/allaccounts" element={<ProtectedRoute element={<AllAccounts />} roles={['admin']} />} />
         <Route path="/manageloans" element={<ProtectedRoute element={<ManageLoans />} roles={['admin']} />} />
         <Route path="/accountdetails/:id" element={<ProtectedRoute element={<ViewAccount />} roles={['admin']} />} />

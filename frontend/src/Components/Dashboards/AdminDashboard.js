@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Users from '../UsersUpdate/AllUsers';
 import AllAccounts from '../Accounts/AllAccount';
 import ManageLoans from '../Loans/ManageLoans';
 import ViewAccount from '../Accounts/ViewAccount';
@@ -7,7 +6,7 @@ import EditAccount from '../Accounts/EditAccount';
 import UserAccountsList from '../Accounts/UserAccountsList'; // Import the UserAccountsList component
 
 const AdminDashboard = () => {
-    const [currentView, setCurrentView] = useState('users');
+    const [currentView, setCurrentView] = useState('userAccountsList'); // Default to 'userAccountsList'
     const [loading, setLoading] = useState(false);
 
     const handleViewChange = (view) => {
@@ -20,8 +19,6 @@ const AdminDashboard = () => {
 
     const renderView = () => {
         switch (currentView) {
-            case 'users':
-                return <Users />;
             case 'allaccounts':
                 return <AllAccounts />;
             case 'manageloans':
@@ -30,11 +27,17 @@ const AdminDashboard = () => {
                 return <ViewAccount />;
             case 'editAccount':
                 return <EditAccount />;
-            case 'userAccountsList': // Add case for UserAccountsList
+            case 'userAccountsList': // Ensure this matches the view name
                 return <UserAccountsList />;
             default:
-                return <Users />;
+                return <UserAccountsList />;
         }
+    };
+
+    const formatTitle = (view) => {
+        return view
+            .replace(/([A-Z])/g, ' $1') // Add space before uppercase letters
+            .toUpperCase(); // Convert to uppercase
     };
 
     return (
@@ -46,8 +49,8 @@ const AdminDashboard = () => {
                         <ul className="nav flex-column">
                             <li className="nav-item">
                                 <button 
-                                    className={`nav-link ${currentView === 'users' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('users')}
+                                    className={`nav-link ${currentView === 'userAccountsList' ? 'active' : ''}`} 
+                                    onClick={() => handleViewChange('userAccountsList')}
                                 >
                                     Manage Users
                                 </button>
@@ -68,25 +71,18 @@ const AdminDashboard = () => {
                                     Manage Loans
                                 </button>
                             </li>
-                            <li className="nav-item">
-                                <button 
-                                    className={`nav-link ${currentView === 'userAccountsList' ? 'active' : ''}`} 
-                                    onClick={() => handleViewChange('userAccountsList')}
-                                >
-                                    User Accounts List
-                                </button>
-                            </li>
+                          
                         </ul>
                     </div>
                 </nav>
                 <main role="main" className="col-md-10 ml-sm-auto px-4">
                     <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 className="h2">{currentView.replace(/([A-Z])/g, ' $1').toUpperCase()}</h1>
+                        <h1 className="h2">{formatTitle(currentView)}</h1>
                     </div>
                     {loading ? (
                         <div className="text-center">
                             <div className="spinner-border" role="status">
-                                <span className="sr-only">Loading...</span>
+                                <span className="visually-hidden">Loading...</span>
                             </div>
                         </div>
                     ) : (

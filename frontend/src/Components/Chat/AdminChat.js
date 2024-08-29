@@ -10,9 +10,9 @@ const AdminChat = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const endOfMessagesRef = useRef(null);
-    
+
     const token = localStorage.getItem('token');
-    
+
     useEffect(() => {
         const fetchUsers = async () => {
             setLoading(true);
@@ -89,16 +89,19 @@ const AdminChat = () => {
 
     return (
         <div className="admin-chat-container">
-            <h2>Admin Chat</h2>
+            <h2 className="header">Admin Chat</h2>
             {loading && <p className="loading">Loading...</p>}
             {error && <p className="error">{error}</p>}
-            <div className="customer-select">
-                <select onChange={e => setSelectedCustomer(e.target.value)} value={selectedCustomer}>
-                    <option value="">Select Customer</option>
-                    {customers.map(customer => (
-                        <option key={customer._id} value={customer._id}>{customer.username}</option>
-                    ))}
-                </select>
+            <div className="customer-buttons">
+                {customers.map(customer => (
+                    <button
+                        key={customer._id}
+                        className={`customer-button ${customer._id === selectedCustomer ? 'active' : ''}`}
+                        onClick={() => setSelectedCustomer(customer._id)}
+                    >
+                        {customer.username}
+                    </button>
+                ))}
             </div>
             <div className="message-container">
                 {messages.map(msg => (
@@ -117,7 +120,7 @@ const AdminChat = () => {
                     onKeyDown={handleKeyPress}
                     placeholder="Type your message..."
                 />
-                <button onClick={handleSendMessage}>Send</button>
+                <button onClick={handleSendMessage} className="send-button">Send</button>
             </div>
         </div>
     );
